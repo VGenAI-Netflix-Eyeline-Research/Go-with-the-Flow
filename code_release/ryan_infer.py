@@ -1,68 +1,31 @@
-from rp import *
+# from rp import *
+import rp
 import torch
+import numpy as np
+import einops
 from diffusers import CogVideoXImageToVideoPipeline
 from diffusers import CogVideoXVideoToVideoPipeline
 from diffusers import CogVideoXPipeline
 from diffusers.utils import export_to_video, load_image
 from icecream import ic
 import rp.git.CommonSource.noise_warp as nw
-import training.ryan_dataset as ryan_dataset
 
 pipe_ids = dict(
     T2V5B="THUDM/CogVideoX-5b",
     T2V2B="THUDM/CogVideoX-2b",
     I2V5B="THUDM/CogVideoX-5b-I2V",
 )
+
 # From a bird's-eye view, a serene scene unfolds: a herd of deer gracefully navigates shallow, warm-hued waters, their silhouettes stark against the earthy tones. The deer, spread across the frame, cast elongated, well-defined shadows that accentuate their antlers, creating a mesmerizing play of light and dark. This aerial perspective captures the tranquil essence of the setting, emphasizing the harmonious contrast between the deer and their mirror-like reflections on the water's surface. The composition exudes a peaceful stillness, yet the subtle movement suggested by the shadows adds a dynamic layer to the natural beauty and symmetry of the moment.
-lora_paths = dict(
-    T2V5B_RDeg_i9800         = '/root/CleanCode/Github/CogVideo/finetune/cogvideox5b-lora-single-node-delegator-noisewarp-Oct16-RandomDegradation-LargerBatchSize-SmallLearnRate/checkpoint-9800/saved_weights_copy/pytorch_lora_weights.safetensors',
-    T2V5B_0Deg_L512_ND_i1200 = '/root/CleanCode/Github/CogVideo/finetune/cogvideox5b-lora-single-node-delegator-noisewarp-Oct16-RandomDegradation-LargerBatchSize-SmallLearnRate-LORA512-0Degrad/checkpoint-1200/saved_weights_copy/pytorch_lora_weights.safetensors',
-    T2V2B_RDeg_i30000        = '/root/CleanCode/Github/CogVideo/finetune/cogvideox2b-lora-single-node-delegator-noisewarp-Oct16-RandomDegradation-LargerBatchSize-SmallLearnRate/checkpoint-30000/saved_weights_copy/pytorch_lora_weights.safetensors',
-    T2V5B_RDeg_L2048_i4800   = '/root/CleanCode/Github/CogVideo/finetune/cogvideox5b-lora-noisewarp-Oct23-LORA2048-RandDegrad-BlendNoiseWithoutNorm/checkpoint-4800/saved_weights_copy/pytorch_lora_weights.safetensors',
-    # ...
-    I2V5B_i2v_webvid_i2600   = '/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v__degrad=0,1__downtemp=nearest__lr=1e-4__2024-10-25T14-52-57-0400/checkpoint-2600/pytorch_lora_weights.safetensors', #Oct26, 3:45AM
-    I2V5B_i2v_webvid_i3200   = '/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v__degrad=0,1__downtemp=nearest__lr=1e-4__2024-10-25T14-52-57-0400/checkpoint-3200/pytorch_lora_weights.safetensors', #Oct26, 6:50AM
-
-    I2V5B_resum_blendnorm_0degrad_i5000_webvid  = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v__ZeroDegrad__resume=CHECKPOINT_I2V5B_i2v_webvid_i3200__degrad=0__downtemp=blend_norm__lr=1e-4__2024-10-27T04-42-17-0400/checkpoint-5000/pytorch_lora_weights.safetensors",
-    I2V5B_resum_blendnorm_0degrad_i7600_webvid  = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v__ZeroDegrad__resume=CHECKPOINT_I2V5B_i2v_webvid_i3200__degrad=0__downtemp=blend_norm__lr=1e-4__2024-10-27T04-42-17-0400/checkpoint-7600/pytorch_lora_weights.safetensors",
-    I2V5B_resum_blendnorm_0degrad_i13600_webvid = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v__ZeroDegrad__resume=CHECKPOINT_I2V5B_i2v_webvid_i3200__degrad=0__downtemp=blend_norm__lr=1e-4__2024-10-27T04-42-17-0400/checkpoint-13600/pytorch_lora_weights.safetensors",
-    I2V5B_resum_blendnorm_i5400_webvid          = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v_CHECKPOINT_I2V5B_i2v_webvid_i3200__degrad=0,1__downtemp=blend_norm__lr=1e-4__2024-10-27T04-18-13-0400/checkpoint-5200/pytorch_lora_weights.safetensors",
-    I2V5B_resum_blendnorm_i6400_webvid          = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v_CHECKPOINT_I2V5B_i2v_webvid_i3200__degrad=0,1__downtemp=blend_norm__lr=1e-4__2024-10-27T04-18-13-0400/checkpoint-6400/pytorch_lora_weights.safetensors",
-    I2V5B_resum_blendnorm_i7600_webvid          = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v_CHECKPOINT_I2V5B_i2v_webvid_i3200__degrad=0,1__downtemp=blend_norm__lr=1e-4__2024-10-27T04-18-13-0400/checkpoint-7600/pytorch_lora_weights.safetensors",
-    I2V5B_resum_blendnorm_i13400_webvid         = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v_CHECKPOINT_I2V5B_i2v_webvid_i3200__degrad=0,1__downtemp=blend_norm__lr=1e-4__2024-10-27T04-18-13-0400/checkpoint-13400/pytorch_lora_weights.safetensors",
-    I2V5B_resum_blendnorm_i22600_webvid         = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v__EnvatoFromWebvid__resume=CHECKPOINT_I2V5B_i2v_webvid_i13400__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={2048}__2024-10-30T10-58-22-0400/checkpoint-22600/pytorch_lora_weights.safetensors",
-    I2V5B_resum_blendnorm_i26600_webvid         = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v__EnvatoFromWebvid__resume=CHECKPOINT_I2V5B_i2v_webvid_i13400__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={2048}__2024-10-30T10-58-22-0400/checkpoint-26600/pytorch_lora_weights.safetensors",
-    I2V5B_resum_blendnorm_i30000_webvid         = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v__EnvatoFromWebvid__resume=CHECKPOINT_I2V5B_i2v_webvid_i13400__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={2048}__2024-10-30T10-58-22-0400/checkpoint-29800/pytorch_lora_weights.safetensors",
-    I2V5B_final_i30000                          = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-EnvatoFromWebvidContinued__resume=CHECKPOINT_I2V5B_resum_blendnorm_i26600__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={2048}__2024-11-03T21-11-57-0500/checkpoint-29800/pytorch_lora_weights.safetensors",
-    I2V5B_final_i38800_nearest                  = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-NEAREST_OVERTIME__EnvatoFromWebvidContinued____resume=CHECKPOINT_I2V5B_resum_blendnorm_i26600__degrad=0,1__downtemp=nearest__lr=1e-4__rank={2048}__2024-11-10T09-48-33-0500/checkpoint-38800/pytorch_lora_weights.safetensors",
-
-    T2V5B_blendnorm_i1800_envato         = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvatoFromScratch__resume=__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-03T15-35-06-0500/checkpoint-1800/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i2000_envato         = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvatoFromScratch__resume=__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-03T15-35-06-0500/checkpoint-2000/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i2800_envato         = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvatoFromScratch__resume=__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-03T15-35-06-0500/checkpoint-2800/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i6800_envato         = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvatoFromScratch__resume=__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-03T15-35-06-0500/checkpoint-6800/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i7400_envato         = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvatoFromScratch__resume=__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-03T15-35-06-0500/checkpoint-7400/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i9600_envato         = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvatoFromScratch__resume=__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-03T15-35-06-0500/checkpoint-9600/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i11600_envato        = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvatoFromScratch__resume=__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-03T15-35-06-0500/checkpoint-11600/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i16400_envato        = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvatoFromScratch__resume=__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-03T15-35-06-0500/checkpoint-16400/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i16800_envato        = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvatoFromScratch__resume=__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-03T15-35-06-0500/checkpoint-16800/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i18000_envato        = "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvatoFromScratch__resume=__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-03T15-35-06-0500/checkpoint-18000/pytorch_lora_weights.safetensors",
-    
-    T2V5B_blendnorm_i11000_envato_nearest= "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvato__ResumeWithNearest____resume=CHECKPOINT_T2V5B_blendnorm_i9400_envato__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-05T16-00-32-0500/checkpoint-11000/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i16400_envato_nearest= "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvato__ResumeWithNearest____resume=CHECKPOINT_T2V5B_blendnorm_i9400_envato__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-05T16-00-32-0500/checkpoint-16400/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i18000_envato_nearest= "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvato__ResumeWithNearest____resume=CHECKPOINT_T2V5B_blendnorm_i11200_envato__degrad=0,1__downtemp=blend_norm__lr=1e-4__rank={3072}__2024-11-06T01-17-49-0500/checkpoint-18000/pytorch_lora_weights.safetensors",
-    T2V5B_blendnorm_i25000_envato_nearest= "/root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-TextToVideoFromEnvato__ResumeWithNearest____resume=CHECKPOINT_T2V5B_blendnorm_i18000_envato_nearest__degrad=0,1__downtemp=nearest__lr=1e-4__rank={3072}__2024-11-10T09-44-21-0500/checkpoint-25000/pytorch_lora_weights.safetensors",
+base_url = 'https://huggingface.co/OneOverZero/Go-With-The-Flow/resolve/main/'
+lora_urls = dict(
+    I2V5B_final_i30000_lora_weights                          = base_url+'I2V5B_final_i30000_lora_weights.safetensors',
+    I2V5B_final_i38800_nearest_lora_weights                  = base_url+'I2V5B_final_i38800_nearest_lora_weights.safetensors',
+    I2V5B_resum_blendnorm_0degrad_i13600_webvid_lora_weights = base_url+'I2V5B_resum_blendnorm_0degrad_i13600_webvid_lora_weights.safetensors',
+    T2V2B_RDeg_i30000_lora_weights                           = base_url+'T2V2B_RDeg_i30000_lora_weights.safetensors',
+    T2V5B_blendnorm_i18000_envato_lora_weights               = base_url+'T2V5B_blendnorm_i18000_envato_lora_weights.safetensors',
+    T2V5B_blendnorm_i25000_envato_nearest_lora_weights       = base_url+'T2V5B_blendnorm_i25000_envato_nearest_lora_weights.safetensors',
 )
-#To get the trained LoRA paths:
-#     >>> lora_paths =glob.glob('/root/CleanCode/Github/CogVideo/finetune/*/*/saved_weights_copy/pytorch_lora_weights.safetensors') #For Old Training Codebase (T2V)
-#     >>> lora_paths+=glob.glob('/root/CleanCode/Github/cogvideox-factory/outputs/models/*/*/*.safetensors')                        #For New Training Codebase (I2V)
-#     >>> def get_lora_name(x): return [y for y in x.split("/") if "lora" in y][0]
-#     >>> print(line_join(sorted([max(x, key=by_number) for x in cluster_by_key(lora_paths, get_lora_name)], key=date_created)))
-#     ... #OUTPUT:
-#     ... # /root/CleanCode/Github/CogVideo/finetune/cogvideox5b-lora-noisewarp-Oct23-LORA2048-RandDegrad-BlendNoiseWithoutNorm/checkpoint-4800/saved_weights_copy/pytorch_lora_weights.safetensors
-#     ... # /root/CleanCode/Github/CogVideo/finetune/cogvideox5b-lora-single-node-delegator-noisewarp-Oct16-RandomDegradation-LargerBatchSize-SmallLearnRate/checkpoint-9800/saved_weights_copy/pytorch_lora_weights.safetensors
-#     ... # /root/CleanCode/Github/CogVideo/finetune/cogvideox2b-lora-single-node-delegator-noisewarp-Oct16-RandomDegradation-LargerBatchSize-SmallLearnRate/checkpoint-30000/saved_weights_copy/pytorch_lora_weights.safetensors
-#     ... # /root/CleanCode/Github/CogVideo/finetune/cogvideox5b-lora-single-node-delegator-noisewarp-Oct16-RandomDegradation-LargerBatchSize-SmallLearnRate-LORA512-0Degrad/checkpoint-1200/saved_weights_copy/pytorch_lora_weights.safetensors
-#     ... # /root/CleanCode/Github/cogvideox-factory/outputs/models/cogx-lora-i2v__degrad=0,1__downtemp=nearest__lr=1e-4__2024-10-25T14-52-57-0400/checkpoint-2600/pytorch_lora_weights.safetensors
 
 dtype=torch.bfloat16
 
@@ -73,12 +36,21 @@ num_frames=(F-1)*4+1 #https://miro.medium.com/v2/resize:fit:1400/format:webp/0*z
 assert num_frames==49
 
 @memoized #Torch never manages to unload it from memory anyway
-def get_pipe(pipe_name=None, lora_name=None, device=None):
+def get_pipe(model_name, device=None, low_vram=True):
+    """
+    model_name is like "I2V5B", "T2V2B", or "T2V5B", or a LoRA name like "T2V2B_RDeg_i30000_lora_weights"
+    device is automatically selected if unspecified
+    low_vram, if True, will make the pipeline use CPU offloading
+    """
     assert pipe_name is not None or lora_name is not None
 
-    if pipe_name is None and isinstance(lora_name, str):
-        #By convention, we have lora_paths that start with the pipe names - such as 
-        fansi_print(f"Getting pipe name from lora_name={lora_name}",'cyan','bold')
+    if model_name in pipe_ids:
+        lora_name = None
+        pipe_name = model_name
+    else:
+        #By convention, we have lora_paths that start with the pipe names
+        rp.fansi_print(f"Getting pipe name from lora_name={lora_name}",'cyan','bold')
+        lora_name = model_name
         pipe_name = lora_name.split('_')[0]
 
     is_i2v = "I2V" in pipe_name  # This is a convention I'm using right now
@@ -90,33 +62,32 @@ def get_pipe(pipe_name=None, lora_name=None, device=None):
         if pipe_name is not None: pipe_name = pipe_name.replace('V2V','T2V')
         if lora_name is not None: lora_name = lora_name.replace('V2V','T2V')
         rp.fansi_print(f"V2V: {old_pipe_name} --> {pipe_name}   &&&   {old_lora_name} --> {lora_name}",'white','bold italic','red')
-    
+
     pipe_id = pipe_ids[pipe_name]
-    print(f"LOADING PIPE WITH device={device} pipe_name={pipe_name} pipe_id={pipe_id} lora_name={lora_name}")
+    print(f"LOADING PIPE WITH device={device} pipe_name={pipe_name} pipe_id={pipe_id} lora_name={lora_name}" )
     
     PipeClass = CogVideoXImageToVideoPipeline if is_i2v else CogVideoXPipeline
-    if is_v2v:
-        PipeClass = CogVideoXVideoToVideoPipeline
-
     pipe = PipeClass.from_pretrained(pipe_ids[pipe_name], torch_dtype=torch.bfloat16)
 
-    pipe.pipe_name = pipe_name
-
     if lora_name is not None:
-        lora_path = lora_paths[lora_name]
-        assert file_exists(lora_path), (lora_name, lora_path)
+        lora_folder = rp.make_directory('lora_models')
+        lora_url = lora_urls[lora_name]
+        lora_path = rp.download_url(lora_url, lora_folder, show_progress=True, skip_existing=True)
+        assert rp.file_exists(lora_path), (lora_name, lora_path)
         print(end="\tLOADING LORA WEIGHTS...",flush=True)
-        pipe.load_lora_weights(rp.download_file_to_cache(lora_path))
+        pipe.load_lora_weights(lora_path)
         print("DONE!")
 
     if device is None:
-        device = select_torch_device()
+        device = rp.select_torch_device()
 
-    if device is not None:
+    if not low_vram:
         print("\tUSING PIPE DEVICE", device)
         pipe = pipe.to(device)
+    else:
+        print("\tUSING PIPE DEVICE WITH CPU OFFLOADING",device)
+        pipe.enable_sequential_cpu_offload()
 
-    # pipe.enable_sequential_cpu_offload()
     pipe.vae.enable_tiling()
     pipe.vae.enable_slicing()
 
@@ -128,9 +99,25 @@ def get_pipe(pipe_name=None, lora_name=None, device=None):
     
     return pipe
 
+def downtemp_noise(noise, noise_downtemp_interp):
+    assert noise_downtemp_interp in {'nearest', 'blend', 'blend_norm', 'randn'}, noise_downtemp_interp
+    if   noise_downtemp_interp == 'nearest'    : return                  rp.resize_list(noise, 13)
+    elif noise_downtemp_interp == 'blend'      : return                   downsamp_mean(noise, 13)
+    elif noise_downtemp_interp == 'blend_norm' : return normalized_noises(downsamp_mean(noise, 13))
+    elif noise_downtemp_interp == 'randn'      : return torch.randn_like(rp.resize_list(noise, 13)) #Basically no warped noise, just r
+    else: assert False, 'impossible'
+
+def downsamp_mean(x, l=13):
+    return torch.stack([rp.mean(u) for u in rp.split_into_n_sublists(x, l)])
+
+def normalized_noises(noises):
+    #Noises is in TCHW form
+    return torch.stack([x / x.std(1, keepdim=True) for x in noises])
+
+
 @memoized
 def load_sample_cartridge(
-    sample_path: str = None,
+    sample_path: str,
     degradation=0,
     noise_downtemp_interp='nearest',
     image=None,
@@ -138,7 +125,6 @@ def load_sample_cartridge(
     #SETTINGS:
     num_inference_steps=30,
     guidance_scale=6,
-    v2v_strength=.5,
 ):
     """
     COMPLETELY FROM SAMPLE: Generate with /root/micromamba/envs/i2sb/lib/python3.8/site-packages/rp/git/CommonSource/notebooks/CogVidSampleGenerator.ipynb
@@ -154,21 +140,39 @@ def load_sample_cartridge(
     noise=None
     video=None
 
-    if sample_path is None:
-        #Choose somethhing
-        sample_path = '/root/micromamba/envs/i2sb/lib/python3.8/site-packages/rp/git/CommonSource/notebooks/CogVidX_Saved_Train_Samples_BlendNoise_Norm_30FPS/amend_shred.pkl' #Driving on a road - lots of zoom
-        sample_path = '/root/micromamba/envs/i2sb/lib/python3.8/site-packages/rp/git/CommonSource/notebooks/CogVidX_Saved_Train_Samples_BlendNoise_Norm_30FPS/clink_grief.pkl' #Camera curving forward to left
+    if rp.is_a_folder(sample_path):
+        #Was generated using the flow pipeline
+        print(end="LOADING CARTRIDGE FOLDER "+sample_path+"...")
+        
+        noise_file=rp.path_join(sample_path,'noises.npy')
+        noise = np.load(noise_file)
+        noise = rp.as_torch_images(noise)
 
-    print(end="LOADING "+sample_path+"...")
-    sample=rp.file_to_object(sample_path)
-    print("DONE!")
+        video_file=rp.path_join(sample_path,'input.mp4')
+        video = rp.load_video(video_file)
+        video = rp.as_torch_images(video)
+        video = video * 2 - 1
+
+        sample = rp.as_easydict(
+            instance_prompt = '', #Please have some prompt to override this! Ideally the defualt would come from a VLM
+            instance_noise = noise,
+            instance_video = video,
+        )
+
+        print("DONE!")
+        
+    else:
+        #Was generated using the Cut-And-Drag GUI
+        print(end="LOADING CARTRIDGE FILE "+sample_path+"...")
+        sample=rp.file_to_object(sample_path)
+        print("DONE!")
 
     #SAMPLE EXAMPLE:
     #    >>> sample=file_to_object('/root/micromamba/envs/i2sb/lib/python3.8/site-packages/rp/git/CommonSource/notebooks/CogVidX_Saved_Train_Samples/ahead_job.pkl')
     #    >>> list(sample)?s                 -->  ['instance_prompt', 'instance_video', 'instance_noise']
     #    >>> sample.instance_prompt?s       -->  A group of elk, including a dominant bull, is seen grazing and moving through...
     #    >>> sample.instance_noise.shape?s  -->  torch.Size([49, 16,  60,  90])
-    #    >>> sample.instance_video.shape?s  -->  torch.Size([49,  3, 480, 720])
+    #    >>> sample.instance_video.shape?s  -->  torch.Size([49,  3, 480, 720])   # Range: [-1, 1]
 
     sample_noise  = sample.instance_noise.to(dtype)
     sample_video  = sample.instance_video.to(dtype)
@@ -187,11 +191,11 @@ def load_sample_cartridge(
         preview_sample_noise=rp.as_numpy_images(sample_noise)[:,:,:,:3]/5+.5
         preview_sample_noise = rp.resize_images(preview_sample_noise, size=8, interp="nearest")
         preview_sample=rp.horizontally_concatenated_videos(preview_sample_video,preview_sample_noise)
-        save_video_mp4(preview_sample,sample_gif_path,video_bitrate='max',framerate=12)
+        rp.save_video_mp4(preview_sample,sample_gif_path,video_bitrate='max',framerate=12)
         rp.fansi_print("DONE MAKING SAMPLE PREVIEW VIDEO!",'light blue green','underlined')
 
     #prompt=sample.instance_prompt
-    downtemp_noise = ryan_dataset.downtemp_noise(
+    downtemp_noise = downtemp_noise(
         sample_noise,
         noise_downtemp_interp=noise_downtemp_interp,
     )
@@ -204,8 +208,8 @@ def load_sample_cartridge(
     elif isinstance(image, str) : sample_image = rp.as_pil_image(rp.as_rgb_image(rp.load_image(image)))
     else                        : sample_image = rp.as_pil_image(rp.as_rgb_image(image))
 
-    metadata = gather_vars('sample_path degradation downtemp_noise sample_gif_path sample_video sample_noise noise_downtemp_interp')
-    settings = gather_vars('num_inference_steps guidance_scale v2v_strength')
+    metadata = rp.gather_vars('sample_path degradation downtemp_noise sample_gif_path sample_video sample_noise noise_downtemp_interp')
+    settings = rp.gather_vars('num_inference_steps guidance_scale v2v_strength')
 
     if noise  is None: noise  = downtemp_noise
     if video  is None: video  = sample_video
@@ -214,7 +218,7 @@ def load_sample_cartridge(
 
     assert noise.shape == (B, F, C, H, W), (noise.shape,(B, F, C, H, W))
 
-    return gather_vars('prompt noise image video metadata settings')
+    return rp.gather_vars('prompt noise image video metadata settings')
 
 def dict_to_name(d=None, **kwargs):
     """
@@ -262,7 +266,7 @@ def get_output_path(pipe, cartridge, subfolder:str, output_root:str):
         String representing the unique path to save the video.
     """
 
-    time = millis()
+    time = rp.millis()
 
     output_name = (
         dict_to_name(
@@ -273,21 +277,21 @@ def get_output_path(pipe, cartridge, subfolder:str, output_root:str):
             strength =               cartridge.settings.v2v_strength,
             degrad   =               cartridge.metadata.degradation,
             downtemp =               cartridge.metadata.noise_downtemp_interp,
-            samp     = get_file_name(get_parent_folder(cartridge.metadata.sample_path), False),
+            samp     = rp.get_file_name(rp.get_parent_folder(cartridge.metadata.sample_path), False),
         )
         + ".mp4"
     )
 
-    output_path = get_unique_copy_path(
-        path_join(
-            make_directory(
-                path_join(output_root, subfolder),
+    output_path = rp.get_unique_copy_path(
+        rp.path_join(
+            rp.make_directory(
+                rp.path_join(output_root, subfolder),
             ),
             output_name,
         ),
     )
 
-    fansi_print(f"OUTPUT PATH: {rp.fansi_highlight_path(output_path)}", "blue", "bold")
+    rp.fansi_print(f"OUTPUT PATH: {rp.fansi_highlight_path(output_path)}", "blue", "bold")
 
     return output_path
 
@@ -296,8 +300,9 @@ def run_pipe(
     cartridge,
     subfolder="first_subfolder",
     output_root: str = "infer_outputs",
+    output_mp4_path = None, #This overrides subfolder and output_root if specified
 ):
-    output_mp4_path = get_output_path(pipe, cartridge, subfolder, output_root)
+    output_mp4_path = output_mp4_path or get_output_path(pipe, cartridge, subfolder, output_root)
     
     if pipe.is_i2v:
         image = cartridge.image
@@ -318,19 +323,16 @@ def run_pipe(
         num_inference_steps=cartridge.settings.num_inference_steps,
         latents=cartridge.noise.to(pipe.device),
 
-        # FYI, SOME OTHER DEFAULT VALUES:
-        # num_videos_per_prompt=1,
-        # num_frames=num_frames,
         guidance_scale=cartridge.settings.guidance_scale,
         # generator=torch.Generator(device=device).manual_seed(42),
     ).frames[0]
 
     export_to_video(video, output_mp4_path, fps=8)
 
-    sample_gif=load_video(cartridge.metadata.sample_gif_path)
-    video=as_numpy_images(video)
-    prevideo = horizontally_concatenated_videos(
-        resize_list(sample_gif, len(video)),
+    sample_gif=rp.load_video(cartridge.metadata.sample_gif_path)
+    video=rp.as_numpy_images(video)
+    prevideo = rp.horizontally_concatenated_videos(
+        rp.resize_list(sample_gif, len(video)),
         video,
         origin='bottom right',
     )
@@ -354,7 +356,7 @@ def run_pipe(
     rp.convert_to_gif_via_ffmpeg(preview_mp4_path, preview_gif_path, framerate=12,show_progress=False)
     print("done!")
 
-    return gather_vars('video output_mp4_path preview_mp4_path compressed_preview_mp4_path cartridge subfolder preview_mp4_path preview_gif_path')
+    return rp.gather_vars('video output_mp4_path preview_mp4_path compressed_preview_mp4_path cartridge subfolder preview_mp4_path preview_gif_path')
 
 
 # #prompt = "A little girl is riding a bicycle at high speed. Focused, detailed, realistic."
@@ -367,18 +369,18 @@ def run_pipe(
 # #image = load_image(image=download_url_to_cache("https://media.sciencephoto.com/f0/22/69/89/f0226989-800px-wm.jpg"))
 
 def main(
-    lora_name='I2V5B_i2v_webvid_i3200',
-    pipe_name=None,
-    device=None,
-    output_root='infer_outputs',
-    subfolder='default_subfolder',
+    model_name='I2V5B_i2v_webvid_i3200',
+    device:str=None,
+    output_mp4_path:str = None,
 
     #BROADCASTABLE:
     sample_path=None,
+    prompt=None,
+    low_vram=False,
+    
     degradation=0,
     noise_downtemp_interp='nearest',
     image=None,
-    prompt=None,
     num_inference_steps=30,
     guidance_scale=6,
     v2v_strength=.5,#Timestep for when using Vid2Vid. Only set to not none when using a T2V model!
@@ -387,22 +389,22 @@ def main(
     Main function to run the video generation pipeline with specified parameters.
 
     Args:
-        pipe_name (str): Name of the pipeline to use ('T2V5B', 'T2V2B', 'I2V5B').
-        lora_name (str): Name of the LoRA weights to load.
-        device (str or int, optional): Device to run the model on (e.g., 'cuda:0' or 0).
-        output_root (str): Root directory where output videos will be saved.
-        subfolder (str): Subfolder within output_root to save outputs.
-        sample_path (str or list, optional): Broadcastable. Path(s) to the sample `.pkl` file(s).
+        model_name (str): Name of the pipeline to use ('T2V5B', 'T2V2B', 'I2V5B', etc).
+        device (str or int, optional): Device to run the model on (e.g., 'cuda:0' or 0). If unspecified, the GPU with the  most free VRAM will be chosen.
+        low_vram (bool): Set to True if you have less than 32GB of VRAM. In enables model cpu offloading, which slows down inference but needs much less vram.
+        sample_path (str or list, optional): Broadcastable. Path(s) to the sample `.pkl` file(s) or folders containing (noise.npy and input.mp4 files)
         degradation (float or list): Broadcastable. Degradation level(s) for the noise warp (float between 0 and 1).
         noise_downtemp_interp (str or list): Broadcastable. Interpolation method(s) for down-temporal noise. Options: 'nearest', 'blend', 'blend_norm'.
         image (str, PIL.Image, or list, optional): Broadcastable. Image(s) to use as the initial frame(s). Can be a URL or a path to an image.
         prompt (str or list, optional): Broadcastable. Text prompt(s) for video generation.
         num_inference_steps (int or list): Broadcastable. Number of inference steps for the pipeline.
     """
+    output_root='infer_outputs', # output_root (str): Root directory where output videos will be saved.
+    subfolder='default_subfolder', # subfolder (str): Subfolder within output_root to save outputs.
 
     if device is None:
         device = rp.select_torch_device(reserve=True, prefer_used=True)
-        fansi_print(f"Selected torch device: {device}")
+        rp.fansi_print(f"Selected torch device: {device}")
 
 
     cartridge_kwargs = rp.broadcast_kwargs(
@@ -417,6 +419,7 @@ def main(
             "v2v_strength",
         )
     )
+
     rp.fansi_print("cartridge_kwargs:", "cyan", "bold")
     print(
         rp.indentify(
@@ -432,7 +435,7 @@ def main(
 
     # cartridges = [load_sample_cartridge(**x) for x in cartridge_kwargs]
     cartridges = rp.load_files(lambda x:load_sample_cartridge(**x), cartridge_kwargs, show_progress='eta:Loading Cartridges')
-    pipe = get_pipe(pipe_name, lora_name, device)
+    pipe = get_pipe(model_name, device, low_vram=low_vram)
 
     output=[]
     for cartridge in cartridges:
@@ -447,18 +450,17 @@ def main(
             rp.as_easydict(
                 rp.gather(
                     pipe_out,
-[
-'output_mp4_path',
-'preview_mp4_path',
-'compressed_preview_mp4_path',
-'preview_mp4_path',
-'preview_gif_path',
-],
+                    [
+                        "output_mp4_path",
+                        "preview_mp4_path",
+                        "compressed_preview_mp4_path",
+                        "preview_mp4_path",
+                        "preview_gif_path",
+                    ],
                     as_dict=True,
                 )
             )
         )
-
     return output
 
 if __name__ == '__main__':
