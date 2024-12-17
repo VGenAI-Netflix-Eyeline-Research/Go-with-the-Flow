@@ -1,0 +1,16 @@
+--index-url https://download.pytorch.org/whl/cu118
+rp
+torch 
+torchvision
+diffusers
+einops
+easydict
+transformers
+accelerate
+oldest-supported-numpy
+sentencepiece
+peft
+opencv-contrib-python
+imageio-ffmpeg
+fire
+moviepy
