@@ -42,14 +42,13 @@ def get_pipe(model_name, device=None, low_vram=True):
     device is automatically selected if unspecified
     low_vram, if True, will make the pipeline use CPU offloading
     """
-    assert pipe_name is not None or lora_name is not None
 
     if model_name in pipe_ids:
         lora_name = None
         pipe_name = model_name
     else:
         #By convention, we have lora_paths that start with the pipe names
-        rp.fansi_print(f"Getting pipe name from lora_name={lora_name}",'cyan','bold')
+        rp.fansi_print(f"Getting pipe name from model_name={model_name}",'cyan','bold')
         lora_name = model_name
         pipe_name = lora_name.split('_')[0]
 
@@ -86,10 +85,11 @@ def get_pipe(model_name, device=None, low_vram=True):
         pipe = pipe.to(device)
     else:
         print("\tUSING PIPE DEVICE WITH CPU OFFLOADING",device)
-        pipe.enable_sequential_cpu_offload()
+        pipe=pipe.to('cpu')
+        pipe.enable_sequential_cpu_offload(device=device)
 
-    pipe.vae.enable_tiling()
-    pipe.vae.enable_slicing()
+    # pipe.vae.enable_tiling()
+    # pipe.vae.enable_slicing()
 
     # Metadata
     pipe.lora_name = lora_name
@@ -145,19 +145,19 @@ def load_sample_cartridge(
         print(end="LOADING CARTRIDGE FOLDER "+sample_path+"...")
         
         noise_file=rp.path_join(sample_path,'noises.npy')
-        noise = np.load(noise_file)
-        noise = torch.tensor(noise)
-        noise = einops.rearrange(noise, 'F H W C -> F C H W')
+        instance_noise = np.load(noise_file)
+        instance_noise = torch.tensor(instance_noise)
+        instance_noise = einops.rearrange(instance_noise, 'F H W C -> F C H W')
 
         video_file=rp.path_join(sample_path,'input.mp4')
-        video = rp.load_video(video_file)
-        video = rp.as_torch_images(video)
-        video = video * 2 - 1
+        instance_video = rp.load_video(video_file)
+        instance_video = rp.as_torch_images(instance_video)
+        instance_video = instance_video * 2 - 1
 
         sample = rp.as_easydict(
             instance_prompt = '', #Please have some prompt to override this! Ideally the defualt would come from a VLM
-            instance_noise = noise,
-            instance_video = video,
+            instance_noise = instance_noise,
+            instance_video = instance_video,
         )
 
         print("DONE!")
@@ -203,7 +203,7 @@ def load_sample_cartridge(
     downtemp_noise = downtemp_noise[None]
     downtemp_noise = nw.mix_new_noise(downtemp_noise, degradation)
 
-    assert downtemp_noise.shape == (B, F, C, H, W), (noise.shape,(B, F, C, H, W))
+    assert downtemp_noise.shape == (B, F, C, H, W), (downtemp_noise.shape,(B, F, C, H, W))
 
     if image is None            : sample_image = rp.as_pil_image(rp.as_numpy_image(sample_video[0].float()/2+.5))
     elif isinstance(image, str) : sample_image = rp.as_pil_image(rp.as_rgb_image(rp.load_image(image)))
@@ -303,7 +303,7 @@ def run_pipe(
     output_root: str = "infer_outputs",
     output_mp4_path = None, #This overrides subfolder and output_root if specified
 ):
-    output_mp4_path = output_mp4_path or get_output_path(pipe, cartridge, subfolder, output_root)
+    # output_mp4_path = output_mp4_path or get_output_path(pipe, cartridge, subfolder, output_root)
     
     if pipe.is_i2v:
         image = cartridge.image
@@ -322,7 +322,7 @@ def run_pipe(
         # **(dict(strength=cartridge.settings.v2v_strength) if pipe.is_v2v else {}),
         # **(dict(video   =v2v_video                      ) if pipe.is_v2v else {}),
         num_inference_steps=cartridge.settings.num_inference_steps,
-        latents=cartridge.noise.to(pipe.device),
+        latents=cartridge.noise,
 
         guidance_scale=cartridge.settings.guidance_scale,
         # generator=torch.Generator(device=device).manual_seed(42),
@@ -372,7 +372,7 @@ def run_pipe(
 def main(
     sample_path,
     prompt,
-    output_mp4_path:str = None,
+    output_mp4_path:str,
     degradation=.5,
     model_name='I2V5B_final_i38800_nearest_lora_weights',
 
@@ -445,6 +445,7 @@ def main(
             cartridge=cartridge,
             output_root=output_root,
             subfolder=subfolder,
+            output_mp4_path=output_mp4_path,
         )
 
         output.append(
