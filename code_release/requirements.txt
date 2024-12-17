@@ -14,3 +14,4 @@ opencv-contrib-python
 imageio-ffmpeg
 fire
 moviepy
+icecream

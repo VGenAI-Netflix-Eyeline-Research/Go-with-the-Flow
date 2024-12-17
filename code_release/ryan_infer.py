@@ -369,16 +369,16 @@ def run_pipe(
 # #image = load_image(image=download_url_to_cache("https://media.sciencephoto.com/f0/22/69/89/f0226989-800px-wm.jpg"))
 
 def main(
-    model_name='I2V5B_i2v_webvid_i3200',
-    device:str=None,
+    sample_path,
+    prompt,
     output_mp4_path:str = None,
+    degradation=.5,
+    model_name='I2V5B_final_i38800_nearest_lora_weights',
 
-    #BROADCASTABLE:
-    sample_path=None,
-    prompt=None,
-    low_vram=False,
+    low_vram=True,
+    device:str=None,
     
-    degradation=0,
+    #BROADCASTABLE:
     noise_downtemp_interp='nearest',
     image=None,
     num_inference_steps=30,
