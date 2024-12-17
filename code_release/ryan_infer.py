@@ -65,8 +65,14 @@ def get_pipe(model_name, device=None, low_vram=True):
     pipe_id = pipe_ids[pipe_name]
     print(f"LOADING PIPE WITH device={device} pipe_name={pipe_name} pipe_id={pipe_id} lora_name={lora_name}" )
     
+    hub_model_id = pipe_ids[pipe_name]
+
+    transformer = CogVideoXTransformer3DModel.from_pretrained(hub_model_id, subfolder="transformer", torch_dtype=torch.bfloat16)
+    text_encoder = T5EncoderModel.from_pretrained(hub_model_id, subfolder="text_encoder", torch_dtype=torch.bfloat16)
+    vae = AutoencoderKLCogVideoX.from_pretrained(hub_model_id, subfolder="vae", torch_dtype=torch.bfloat16)
+
     PipeClass = CogVideoXImageToVideoPipeline if is_i2v else CogVideoXPipeline
-    pipe = PipeClass.from_pretrained(pipe_ids[pipe_name], torch_dtype=torch.bfloat16)
+    pipe = PipeClass.from_pretrained(hub_model_id, torch_dtype=torch.bfloat16)
 
     if lora_name is not None:
         lora_folder = rp.make_directory('lora_models')
@@ -236,8 +242,7 @@ def dict_to_name(d=None, **kwargs):
     d.update(kwargs)
     return ",".join("=".join(map(str, [key, value])) for key, value in d.items())
 
-def name_to_dict(name):
-    """
+def name_to_dict(nam"
     Useful for analyzing output MP4 files
 
     EXAMPLE:
@@ -436,6 +441,7 @@ def main(
 
     # cartridges = [load_sample_cartridge(**x) for x in cartridge_kwargs]
     cartridges = rp.load_files(lambda x:load_sample_cartridge(**x), cartridge_kwargs, show_progress='eta:Loading Cartridges')
+
     pipe = get_pipe(model_name, device, low_vram=low_vram)
 
     output=[]
