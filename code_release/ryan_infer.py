@@ -54,14 +54,14 @@ def get_pipe(model_name, device=None, low_vram=True):
         pipe_name = lora_name.split('_')[0]
 
     is_i2v = "I2V" in pipe_name  # This is a convention I'm using right now
-    is_v2v = "V2V" in pipe_name  # This is a convention I'm using right now
+    # is_v2v = "V2V" in pipe_name  # This is a convention I'm using right now
 
-    if is_v2v:
-        old_pipe_name = pipe_name
-        old_lora_name = lora_name
-        if pipe_name is not None: pipe_name = pipe_name.replace('V2V','T2V')
-        if lora_name is not None: lora_name = lora_name.replace('V2V','T2V')
-        rp.fansi_print(f"V2V: {old_pipe_name} --> {pipe_name}   &&&   {old_lora_name} --> {lora_name}",'white','bold italic','red')
+    # if is_v2v:
+    #     old_pipe_name = pipe_name
+    #     old_lora_name = lora_name
+    #     if pipe_name is not None: pipe_name = pipe_name.replace('V2V','T2V')
+    #     if lora_name is not None: lora_name = lora_name.replace('V2V','T2V')
+    #     rp.fansi_print(f"V2V: {old_pipe_name} --> {pipe_name}   &&&   {old_lora_name} --> {lora_name}",'white','bold italic','red')
 
     pipe_id = pipe_ids[pipe_name]
     print(f"LOADING PIPE WITH device={device} pipe_name={pipe_name} pipe_id={pipe_id} lora_name={lora_name}" )
@@ -95,11 +95,11 @@ def get_pipe(model_name, device=None, low_vram=True):
     pipe.lora_name = lora_name
     pipe.pipe_name = pipe_name
     pipe.is_i2v    = is_i2v
-    pipe.is_v2v    = is_v2v
+    # pipe.is_v2v    = is_v2v
     
     return pipe
 
-def downtemp_noise(noise, noise_downtemp_interp):
+def get_downtemp_noise(noise, noise_downtemp_interp):
     assert noise_downtemp_interp in {'nearest', 'blend', 'blend_norm', 'randn'}, noise_downtemp_interp
     if   noise_downtemp_interp == 'nearest'    : return                  rp.resize_list(noise, 13)
     elif noise_downtemp_interp == 'blend'      : return                   downsamp_mean(noise, 13)
@@ -146,7 +146,8 @@ def load_sample_cartridge(
         
         noise_file=rp.path_join(sample_path,'noises.npy')
         noise = np.load(noise_file)
-        noise = rp.as_torch_images(noise)
+        noise = torch.tensor(noise)
+        noise = einops.rearrange(noise, 'F H W C -> F C H W')
 
         video_file=rp.path_join(sample_path,'input.mp4')
         video = rp.load_video(video_file)
@@ -195,7 +196,7 @@ def load_sample_cartridge(
         rp.fansi_print("DONE MAKING SAMPLE PREVIEW VIDEO!",'light blue green','underlined')
 
     #prompt=sample.instance_prompt
-    downtemp_noise = downtemp_noise(
+    downtemp_noise = get_downtemp_noise(
         sample_noise,
         noise_downtemp_interp=noise_downtemp_interp,
     )
@@ -209,7 +210,7 @@ def load_sample_cartridge(
     else                        : sample_image = rp.as_pil_image(rp.as_rgb_image(image))
 
     metadata = rp.gather_vars('sample_path degradation downtemp_noise sample_gif_path sample_video sample_noise noise_downtemp_interp')
-    settings = rp.gather_vars('num_inference_steps guidance_scale v2v_strength')
+    settings = rp.gather_vars('num_inference_steps guidance_scale'+0*'v2v_strength')
 
     if noise  is None: noise  = downtemp_noise
     if video  is None: video  = sample_video
@@ -274,7 +275,7 @@ def get_output_path(pipe, cartridge, subfolder:str, output_root:str):
             pipe=pipe.pipe_name,
             lora=pipe.lora_name,
             steps    =               cartridge.settings.num_inference_steps,
-            strength =               cartridge.settings.v2v_strength,
+            # strength =               cartridge.settings.v2v_strength,
             degrad   =               cartridge.metadata.degradation,
             downtemp =               cartridge.metadata.noise_downtemp_interp,
             samp     = rp.get_file_name(rp.get_parent_folder(cartridge.metadata.sample_path), False),
@@ -309,17 +310,17 @@ def run_pipe(
         if isinstance(image, str):
             image = rp.as_pil_image(rp.load_image(image, use_cache=True))
 
-    if pipe.is_v2v:
-        print("Making v2v video...")
-        v2v_video=cartridge.video
-        v2v_video=rp.as_numpy_images(v2v_video) / 2 + .5
-        v2v_video=rp.as_pil_images(v2v_video)
+    # if pipe.is_v2v:
+    #     print("Making v2v video...")
+    #     v2v_video=cartridge.video
+    #     v2v_video=rp.as_numpy_images(v2v_video) / 2 + .5
+    #     v2v_video=rp.as_pil_images(v2v_video)
 
     video = pipe(
         prompt=cartridge.prompt,
         **(dict(image   =image                          ) if pipe.is_i2v else {}),
-        **(dict(strength=cartridge.settings.v2v_strength) if pipe.is_v2v else {}),
-        **(dict(video   =v2v_video                      ) if pipe.is_v2v else {}),
+        # **(dict(strength=cartridge.settings.v2v_strength) if pipe.is_v2v else {}),
+        # **(dict(video   =v2v_video                      ) if pipe.is_v2v else {}),
         num_inference_steps=cartridge.settings.num_inference_steps,
         latents=cartridge.noise.to(pipe.device),
 
@@ -383,7 +384,7 @@ def main(
     image=None,
     num_inference_steps=30,
     guidance_scale=6,
-    v2v_strength=.5,#Timestep for when using Vid2Vid. Only set to not none when using a T2V model!
+    # v2v_strength=.5,#Timestep for when using Vid2Vid. Only set to not none when using a T2V model!
 ):
     """
     Main function to run the video generation pipeline with specified parameters.
@@ -416,7 +417,7 @@ def main(
             "prompt",
             "num_inference_steps",
             "guidance_scale",
-            "v2v_strength",
+            # "v2v_strength",
         )
     )
 
