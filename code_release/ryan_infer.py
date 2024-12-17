@@ -35,7 +35,7 @@ num_frames=(F-1)*4+1 #https://miro.medium.com/v2/resize:fit:1400/format:webp/0*z
 #Possible num_frames: 1, 5, 9, 13, 17, 21, 25, 29, 33, 37, 41, 45, 49
 assert num_frames==49
 
-@memoized #Torch never manages to unload it from memory anyway
+@rp.memoized #Torch never manages to unload it from memory anyway
 def get_pipe(model_name, device=None, low_vram=True):
     """
     model_name is like "I2V5B", "T2V2B", or "T2V5B", or a LoRA name like "T2V2B_RDeg_i30000_lora_weights"
@@ -115,7 +115,7 @@ def normalized_noises(noises):
     return torch.stack([x / x.std(1, keepdim=True) for x in noises])
 
 
-@memoized
+@rp.memoized
 def load_sample_cartridge(
     sample_path: str,
     degradation=0,
