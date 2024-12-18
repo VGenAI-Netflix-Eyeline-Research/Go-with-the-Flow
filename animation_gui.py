@@ -233,14 +233,14 @@ def apply_transformation(polygon, scale, rotation, origin):
     return final_polygon
 
 
-def cogvlm_caption_video(video_path, prompt="Please describe this video in detail."):
-    import rp.web_evaluator as wev
-
-    client = wev.Client("100.113.27.133")
-    result = client.evaluate("run_captioner(x,prompt=prompt)", x=video_path, prompt=prompt)
-    if result.errored:
-        raise result.error
-    return result.value
+# def cogvlm_caption_video(video_path, prompt="Please describe this video in detail."):
+#     import rp.web_evaluator as wev
+#
+#     client = wev.Client("100.113.27.133")
+#     result = client.evaluate("run_captioner(x,prompt=prompt)", x=video_path, prompt=prompt)
+#     if result.errored:
+#         raise result.error
+#     return result.value
 
 
 if __name__ == "__main__":
@@ -259,6 +259,7 @@ if __name__ == "__main__":
         image = load_image(image_path, use_cache=True)
         image = resize_image_to_fit(image, height=1440, allow_growth=False)
 
+    rp.fansi_print("PRO TIP: Use this website to help write your captions: https://huggingface.co/spaces/THUDM/CogVideoX-5B-Space", 'blue cyan')
     prompt=input(fansi('Input the video caption >>> ','blue cyan','bold'))
 
     SCALE_FACTOR=1
@@ -275,7 +276,7 @@ if __name__ == "__main__":
         ),
     )
     output_folder=make_directory(get_unique_copy_path(title))
-    print("Output folder: " + fansi_highlight_path(image_path))
+    print("Output folder: " + fansi_highlight_path(output_folder))
 
     fansi_print("How many layers?", "blue cyan", "italic bold underlined"),
     num_layers = input_integer(
