@@ -8,6 +8,9 @@ from diffusers import CogVideoXVideoToVideoPipeline
 from diffusers import CogVideoXPipeline
 from diffusers.utils import export_to_video, load_image
 from icecream import ic
+from diffusers import AutoencoderKLCogVideoX, CogVideoXImageToVideoPipeline, CogVideoXTransformer3DModel 
+from transformers import T5EncoderModel
+
 import rp.git.CommonSource.noise_warp as nw
 
 pipe_ids = dict(
@@ -72,7 +75,7 @@ def get_pipe(model_name, device=None, low_vram=True):
     vae = AutoencoderKLCogVideoX.from_pretrained(hub_model_id, subfolder="vae", torch_dtype=torch.bfloat16)
 
     PipeClass = CogVideoXImageToVideoPipeline if is_i2v else CogVideoXPipeline
-    pipe = PipeClass.from_pretrained(hub_model_id, torch_dtype=torch.bfloat16)
+    pipe = PipeClass.from_pretrained(hub_model_id, torch_dtype=torch.bfloat16, vae=vae,transformer=transformer,text_encoder=text_encoder)
 
     if lora_name is not None:
         lora_folder = rp.make_directory('lora_models')
@@ -242,22 +245,22 @@ def dict_to_name(d=None, **kwargs):
     d.update(kwargs)
     return ",".join("=".join(map(str, [key, value])) for key, value in d.items())
 
-def name_to_dict(nam"
-    Useful for analyzing output MP4 files
-
-    EXAMPLE:
-        >>> dict_to_name(dict(a=5,b='hello',c=None))
-        ans = a=5,b=hello,c=None
-        >>> name_to_dict(ans)
-        ans = {'a': '5', 'b': 'hello', 'c': 'None'}
-    """
-    output=rp.as_easydict()
-    for entry in name.split(','):
-        key,value=entry.split('=',maxsplit=1)
-        output[key]=value
-    return output
-
-
+# def name_to_dict(nam"
+#     Useful for analyzing output MP4 files
+#
+#     EXAMPLE:
+#         >>> dict_to_name(dict(a=5,b='hello',c=None))
+#         ans = a=5,b=hello,c=None
+#         >>> name_to_dict(ans)
+#         ans = {'a': '5', 'b': 'hello', 'c': 'None'}
+#     """
+#     output=rp.as_easydict()
+#     for entry in name.split(','):
+#         key,value=entry.split('=',maxsplit=1)
+#         output[key]=value
+#     return output
+#
+#
 def get_output_path(pipe, cartridge, subfolder:str, output_root:str):
     """
     Generates a unique output path for saving a generated video.
@@ -309,6 +312,9 @@ def run_pipe(
     output_mp4_path = None, #This overrides subfolder and output_root if specified
 ):
     # output_mp4_path = output_mp4_path or get_output_path(pipe, cartridge, subfolder, output_root)
+
+    if rp.file_exists(output_mp4_path):
+        raise RuntimeError("{output_mp4_path} already exists! Please choose a different output file or delete that one. This script is designed not to clobber previous results.")
     
     if pipe.is_i2v:
         image = cartridge.image
