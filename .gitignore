@@ -1,3 +1,13 @@
 
 code_release/output_folder_new
 code_release/.nfs000000000322527c00009703
+
+
+#<RP Default Gitignore Start>
+*.pyc
+*.swo
+*.swp
+*.un~
+*.DS_Store
+#<RP Default Gitignore End>
+
