@@ -1,5 +1,5 @@
-# from rp import *
 import rp
+# from rp import *
 import torch
 import numpy as np
 import einops
@@ -184,9 +184,9 @@ def load_sample_cartridge(
     #    >>> sample.instance_noise.shape?s  -->  torch.Size([49, 16,  60,  90])
     #    >>> sample.instance_video.shape?s  -->  torch.Size([49,  3, 480, 720])   # Range: [-1, 1]
 
-    sample_noise  = sample.instance_noise.to(dtype)
-    sample_video  = sample.instance_video.to(dtype)
-    sample_prompt = sample.instance_prompt
+    sample_noise  = sample["instance_noise" ].to(dtype)
+    sample_video  = sample["instance_video" ].to(dtype)
+    sample_prompt = sample["instance_prompt"]
 
     sample_gif_path = sample_path+'.mp4'
     if not rp.file_exists(sample_gif_path):
@@ -319,13 +319,17 @@ def run_pipe(
     if pipe.is_i2v:
         image = cartridge.image
         if isinstance(image, str):
-            image = rp.as_pil_image(rp.load_image(image, use_cache=True))
+            image = rp.load_image(image,use_cache=True)
+        image = rp.as_pil_image(rp.as_rgb_image(image))
 
     # if pipe.is_v2v:
     #     print("Making v2v video...")
     #     v2v_video=cartridge.video
     #     v2v_video=rp.as_numpy_images(v2v_video) / 2 + .5
     #     v2v_video=rp.as_pil_images(v2v_video)
+
+    print("NOISE SHAPE",cartridge.noise.shape)
+    print("IMAGE",image)
 
     video = pipe(
         prompt=cartridge.prompt,
@@ -382,8 +386,8 @@ def run_pipe(
 
 def main(
     sample_path,
-    prompt,
     output_mp4_path:str,
+    prompt=None,
     degradation=.5,
     model_name='I2V5B_final_i38800_nearest_lora_weights',
 
