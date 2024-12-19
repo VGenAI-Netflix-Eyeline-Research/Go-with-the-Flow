@@ -821,6 +821,61 @@
 				<a class="menu-item" href="#more-motion-control"><span>More Object Motion Control</span></a>
 				<a class="menu-item" href="#camera-motion-control"><span>Camera Motion Control</span></a>
 				<a class="menu-item" href="#depth-camera-control"><span>Depth-Based Camera Motion</span></a>
+				<style>
+					/* Your existing nav styles here */
+
+					/* Add these new styles for sections */
+					.content-section {
+						opacity: 1;
+						transform: translateY(0);
+						transition: opacity 0.4s ease, transform 0.4s ease;
+					}
+
+					.content-section.fade-out {
+						opacity: 0;
+						transform: translateY(20px);
+					}
+
+					.content-section.fade-in {
+						opacity: 1;
+						transform: translateY(0);
+					}
+				</style>
+
+				<script>
+					document.addEventListener('DOMContentLoaded', () => {
+						const menuGrid = document.querySelector('.menu-grid');
+
+						menuGrid.addEventListener('click', (e) => {
+							const link = e.target.closest('a');
+							if (!link) return;
+
+							e.preventDefault();
+							const targetId = link.getAttribute('href').slice(1);
+							const targetSection = document.getElementById(targetId);
+
+							if (targetSection) {
+								// Fade out all sections
+								document.querySelectorAll('.content-section').forEach(section => {
+									section.classList.add('fade-out');
+									section.classList.remove('fade-in');
+								});
+
+								// Smooth scroll
+								window.scrollTo({
+									top: targetSection.offsetTop - 100,
+									behavior: 'smooth'
+								});
+
+								// Fade in target section after small delay
+								setTimeout(() => {
+									targetSection.classList.remove('fade-out');
+									targetSection.classList.add('fade-in');
+								}, 400);
+							}
+						});
+					});
+				</script>
 				<a class="menu-item" href="#novel-camera-control"><span>More Camera Motion</span></a>
 			</div>
 		</div>
@@ -906,6 +961,60 @@
 		</div>
 	</section>
 
+	<!-- Page Scrolling Animation Start -->
+	<style>
+		.content-section {
+			opacity: 1;
+			transform: translateY(0);
+			transition: opacity 0.4s ease, transform 0.4s ease;
+		}
+
+		.content-section.fade-out {
+			opacity: 0;
+			transform: translateY(20px);
+		}
+
+		.content-section.fade-in {
+			opacity: 1;
+			transform: translateY(0);
+		}
+	</style>
+
+	<script>
+		document.addEventListener('DOMContentLoaded', () => {
+			const menuGrid = document.querySelector('.menu-grid');
+
+			menuGrid.addEventListener('click', (e) => {
+				const link = e.target.closest('a');
+				if (!link) return;
+
+				e.preventDefault();
+				const targetId = link.getAttribute('href').slice(1);
+				const targetSection = document.getElementById(targetId);
+
+				if (targetSection) {
+					// Fade out all sections
+					document.querySelectorAll('.content-section').forEach(section => {
+						section.classList.add('fade-out');
+						section.classList.remove('fade-in');
+					});
+
+					// Smooth scroll
+					window.scrollTo({
+						top: targetSection.offsetTop - 100,
+						behavior: 'smooth'
+					});
+
+					// Fade in target section after small delay
+					setTimeout(() => {
+						targetSection.classList.remove('fade-out');
+						targetSection.classList.add('fade-in');
+					}, 400);
+				}
+			});
+		});
+	</script>
+	<!-- Page Scrolling Animation End -->
 
 	<div class="container" id="carousel">
 		<div id="slick">
