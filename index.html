@@ -787,101 +787,91 @@
 			<div class="container is-max-desktop">
 				<div class="columns is-centered">
 					<div class="column has-text-centered">
-						<h1 class="title is-1 publication-title">Go with the Flow</h1>
-						<h3>Motion-Controllable Video Diffusion Models Using
-							Real-Time Warped Noise Flow</h3>
-						<div class="is-size-5 publication-authors">
+						<h2>Abstract</h2>
 
-							<div class="is-size-3 publication-authors">
-								<!-- <span class="author-block">Supplmentary Material Website</span> -->
-							</div>
+						<p>Go-with-the-Flow is an easy and efficient way to control the motion patterns of video
+							diffusion models. It lets a user decide how the camera and objects in a scene will move, and
+							can even let you transfer motion patterns from one video to another. </p>
 
-							<div class="column has-text-centered">
-								<div class="publication-links">
-									<!-- Arxiv PDF link -->
-									<a href="sm/index.html" target="_blank"
-										class="external-link button is-normal is-rounded is-dark">
-										<span>Supplementary Material</span>
-									</a>
-									</span>
-								</div>
-							</div>
-						</div>
+						<p>We simply fine-tune a base model - requiring no changes to the original pipeline or
+							architecture, except: instead of using pure i.i.d. gaussian noise, we use warped noise
+							instead. Inference is exactly the same computational cost as running that base model. </p>
 					</div>
 				</div>
 			</div>
 	</section>
+	<h2 class="is-centered has-text-centered">Table Of Contents</h2>
 	<div class="columns is-centered has-text-centered">
-	<nav class="navbar">
-		<div class="container">
-			<div class="menu-grid">
-				<a class="menu-item" href="#object-motion-transfer"><span>Object Motion Transfer</span></a>
-				<a class="menu-item" href="#flow-visualization"><span>Warped Noise Visualization</span></a>
-				<a class="menu-item" href="#degradation-levels"><span>Degradation Levels</span></a>
-				<a class="menu-item" href="#first-frame-edits"><span>First Frame Edits</span></a>
-				<a class="menu-item" href="#more-motion-control"><span>More Object Motion Control</span></a>
-				<a class="menu-item" href="#camera-motion-control"><span>Camera Motion Control</span></a>
-				<a class="menu-item" href="#depth-camera-control"><span>Depth-Based Camera Motion</span></a>
-				<style>
-					/* Your existing nav styles here */
+		<nav class="navbar is-centered has-text-centered">
+			<div class="container is-centered has-text-centered">
+				<div class="menu-grid">
+					<a class="menu-item" href="#object-motion-transfer"><span>Object Motion Transfer</span></a>
+					<a class="menu-item" href="#flow-visualization"><span>Warped Noise Visualization</span></a>
+					<a class="menu-item" href="#degradation-levels"><span>Degradation Levels</span></a>
+					<a class="menu-item" href="#first-frame-edits"><span>First Frame Edits</span></a>
+					<a class="menu-item" href="#more-motion-control"><span>More Object Motion Control</span></a>
+					<a class="menu-item" href="#camera-motion-control"><span>Camera Motion Control</span></a>
+					<a class="menu-item" href="#depth-camera-control"><span>Depth-Based Camera Motion</span></a>
+					<style>
+						/* Your existing nav styles here */
 
-					/* Add these new styles for sections */
-					.content-section {
-						opacity: 1;
-						transform: translateY(0);
-						transition: opacity 0.4s ease, transform 0.4s ease;
-					}
+						/* Add these new styles for sections */
+						.content-section {
+							opacity: 1;
+							transform: translateY(0);
+							transition: opacity 0.4s ease, transform 0.4s ease;
+						}
 
-					.content-section.fade-out {
-						opacity: 0;
-						transform: translateY(20px);
-					}
+						.content-section.fade-out {
+							opacity: 0;
+							transform: translateY(20px);
+						}
 
-					.content-section.fade-in {
-						opacity: 1;
-						transform: translateY(0);
-					}
-				</style>
+						.content-section.fade-in {
+							opacity: 1;
+							transform: translateY(0);
+						}
+					</style>
 
-				<script>
-					document.addEventListener('DOMContentLoaded', () => {
-						const menuGrid = document.querySelector('.menu-grid');
+					<script>
+						document.addEventListener('DOMContentLoaded', () => {
+							const menuGrid = document.querySelector('.menu-grid');
 
-						menuGrid.addEventListener('click', (e) => {
-							const link = e.target.closest('a');
-							if (!link) return;
+							menuGrid.addEventListener('click', (e) => {
+								const link = e.target.closest('a');
+								if (!link) return;
 
-							e.preventDefault();
-							const targetId = link.getAttribute('href').slice(1);
-							const targetSection = document.getElementById(targetId);
+								e.preventDefault();
+								const targetId = link.getAttribute('href').slice(1);
+								const targetSection = document.getElementById(targetId);
 
-							if (targetSection) {
-								// Fade out all sections
-								document.querySelectorAll('.content-section').forEach(section => {
-									section.classList.add('fade-out');
-									section.classList.remove('fade-in');
-								});
+								if (targetSection) {
+									// Fade out all sections
+									document.querySelectorAll('.content-section').forEach(section => {
+										section.classList.add('fade-out');
+										section.classList.remove('fade-in');
+									});
 
-								// Smooth scroll
-								window.scrollTo({
-									top: targetSection.offsetTop - 100,
-									behavior: 'smooth'
-								});
+									// Smooth scroll
+									window.scrollTo({
+										top: targetSection.offsetTop - 100,
+										behavior: 'smooth'
+									});
 
-								// Fade in target section after small delay
-								setTimeout(() => {
-									targetSection.classList.remove('fade-out');
-									targetSection.classList.add('fade-in');
-								}, 400);
-							}
+									// Fade in target section after small delay
+									setTimeout(() => {
+										targetSection.classList.remove('fade-out');
+										targetSection.classList.add('fade-in');
+									}, 400);
+								}
+							});
 						});
-					});
-				</script>
-				<a class="menu-item" href="#novel-camera-control"><span>More Camera Motion</span></a>
+					</script>
+					<a class="menu-item" href="#novel-camera-control"><span>More Camera Motion</span></a>
+				</div>
 			</div>
-		</div>
-	</nav>
-</div>
+		</nav>
+	</div>
 
 	<style>
 		.navbar {
