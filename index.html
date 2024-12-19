@@ -721,63 +721,63 @@
 		</div>
 		<!--Waves end-->
 
-	<!-- Teaser video-->
-	<style>
-		.iframe-wrapper {
-			position: relative;
-			aspect-ratio: 16 / 9;
-			border-radius: 30px;
-			overflow: hidden;
-			filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.3));
-		}
+		<!-- Teaser video-->
+		<style>
+			.iframe-wrapper {
+				position: relative;
+				aspect-ratio: 16 / 9;
+				border-radius: 30px;
+				overflow: hidden;
+				filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.3));
+			}
 
-		.iframe-wrapper::before {
-			content: "";
-			position: absolute;
-			inset: 0;
-			z-index: 1;
-			border-radius: 30px;
-			padding: 10px;
-			background: linear-gradient(45deg, #8de3ff, #6161ff);
-			-webkit-mask:
-				linear-gradient(#fff 0 0) content-box,
-				linear-gradient(#fff 0 0);
-			-webkit-mask-composite: xor;
-			mask-composite: exclude;
-			opacity: 1;
-			transition: transform 0.5s ease;
-			pointer-events: fill;
-		}
+			.iframe-wrapper::before {
+				content: "";
+				position: absolute;
+				inset: 0;
+				z-index: 1;
+				border-radius: 30px;
+				padding: 10px;
+				background: linear-gradient(45deg, #8de3ff, #6161ff);
+				-webkit-mask:
+					linear-gradient(#fff 0 0) content-box,
+					linear-gradient(#fff 0 0);
+				-webkit-mask-composite: xor;
+				mask-composite: exclude;
+				opacity: 1;
+				transition: transform 0.5s ease;
+				pointer-events: fill;
+			}
 
-		.iframe-wrapper:hover::before {
-			transform: scale(1.1);
-			pointer-events: none;
-		}
+			.iframe-wrapper:hover::before {
+				transform: scale(1.1);
+				pointer-events: none;
+			}
 
-		.iframe-wrapper iframe {
-			position: absolute;
-			top: 0;
-			left: 0;
-			width: 100%;
-			height: 100%;
-		}
-	</style>
-	<section class="hero is-light" style="background:white; width:100%">
-		<br>
-		<br>
-		<div class="container is-max-desktop" style="width:100%">
-			<div class="columns is-centered has-text-centered" style="width:100%">
-				<div class="iframe-wrapper column" style="width:100%">
-					<iframe style="width:100%" width="100%" src="https://www.youtube.com/embed/00MfkIggOx0"
-						title="YouTube video player" frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowfullscreen>
-					</iframe>
+			.iframe-wrapper iframe {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 100%;
+				height: 100%;
+			}
+		</style>
+		<section class="hero is-light" style="background:white; width:100%">
+			<br>
+			<br>
+			<div class="container is-max-desktop" style="width:100%">
+				<div class="columns is-centered has-text-centered" style="width:100%">
+					<div class="iframe-wrapper column" style="width:100%">
+						<iframe style="width:100%" width="100%" src="https://www.youtube.com/embed/00MfkIggOx0"
+							title="YouTube video player" frameborder="0"
+							allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+							allowfullscreen>
+						</iframe>
+					</div>
 				</div>
 			</div>
-		</div>
-	</section>
-	<!-- End teaser video -->
+		</section>
+		<!-- End teaser video -->
 
 	</div>
 	<!--Header ends-->
@@ -811,26 +811,84 @@
 				</div>
 			</div>
 	</section>
-
-	<nav class="navbar is-light">
+	<nav class="navbar">
 		<div class="container">
-			<table class="menu-table">
-				<tr>
-					<td><a class="menu-link" href="#object-motion-transfer">Object Motion Transfer</a></td>
-					<td><a class="menu-link" href="#flow-visualization">Flow Visualization</a></td>
-					<td><a class="menu-link" href="#degradation-levels">Degradation Levels</a></td>
-					<td><a class="menu-link" href="#first-frame-edits">First Frame Edits</a></td>
-				</tr>
-				<tr>
-					<td><a class="menu-link" href="#more-motion-control">More Object Motion Control</a></td>
-					<td><a class="menu-link" href="#camera-motion-control">Camera Motion Control</a></td>
-					<td><a class="menu-link" href="#depth-camera-control">Depth-Based Camera Motion</a></td>
-					<td><a class="menu-link" href="#novel-camera-control">More Camera Motion</a></td>
-				</tr>
-			</table>
+			<div class="menu-grid">
+				<a class="menu-item" href="#object-motion-transfer"><span>Object Motion Transfer</span></a>
+				<a class="menu-item" href="#flow-visualization"><span>Warped Noise Visualization</span></a>
+				<a class="menu-item" href="#degradation-levels"><span>Degradation Levels</span></a>
+				<a class="menu-item" href="#first-frame-edits"><span>First Frame Edits</span></a>
+				<a class="menu-item" href="#more-motion-control"><span>More Object Motion Control</span></a>
+				<a class="menu-item" href="#camera-motion-control"><span>Camera Motion Control</span></a>
+				<a class="menu-item" href="#depth-camera-control"><span>Depth-Based Camera Motion</span></a>
+				<a class="menu-item" href="#novel-camera-control"><span>More Camera Motion</span></a>
+			</div>
 		</div>
 	</nav>
 
+	<style>
+		.navbar {
+			background-color: #fff;
+			padding: 2rem 0;
+		}
+
+		.container {
+			max-width: 1200px;
+			margin: 0 auto;
+			padding: 0 1rem;
+		}
+
+		.menu-grid {
+			display: grid;
+			grid-template-columns: repeat(4, 1fr);
+			gap: 1.5rem;
+		}
+
+		.menu-item {
+			display: flex;
+			align-items: center;
+			justify-content: center;
+			padding: 1.2rem;
+			text-decoration: none;
+			border-radius: 0.5rem;
+			box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+			position: relative;
+			overflow: hidden;
+			background: white;
+		}
+
+		.menu-item::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+			background: linear-gradient(135deg, #0093E9, #80D0C7);
+			opacity: 0;
+			transition: opacity 0.3s ease;
+		}
+
+		.menu-item span {
+			position: relative;
+			z-index: 2;
+			color: #000;
+			transition: color 0.3s;
+		}
+
+		.menu-item:hover::before {
+			opacity: 1;
+		}
+
+		.menu-item:hover {
+			text-decoration: none;
+			box-shadow: 0 8px 12px rgba(0, 0, 0, 0.15);
+		}
+
+		.menu-item:hover span {
+			color: #fff;
+		}
+	</style>
 	<section id="object-motion-transfer" class="section hero is-light">
 		<div class="container is-max-desktop">
 			<div class="columns is-centered has-text-centered">
@@ -972,7 +1030,7 @@
 		<div class="container is-max-desktop">
 			<div class="columns is-centered has-text-centered">
 				<div class="column is-four-fifths">
-					<h2 class="title is-3">Flow Visualization</h2>
+					<h2 class="title is-3">Warped Noise Visualization</h2>
 					<div class="content has-text-justified">
 						<p>
 							A visualization comparing the original video, the optical flow, and the warped noise
