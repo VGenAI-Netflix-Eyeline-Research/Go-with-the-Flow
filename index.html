@@ -721,6 +721,64 @@
 		</div>
 		<!--Waves end-->
 
+	<!-- Teaser video-->
+	<style>
+		.iframe-wrapper {
+			position: relative;
+			aspect-ratio: 16 / 9;
+			border-radius: 30px;
+			overflow: hidden;
+			filter: drop-shadow(0 0 20px rgba(0, 0, 0, 0.3));
+		}
+
+		.iframe-wrapper::before {
+			content: "";
+			position: absolute;
+			inset: 0;
+			z-index: 1;
+			border-radius: 30px;
+			padding: 10px;
+			background: linear-gradient(45deg, #8de3ff, #6161ff);
+			-webkit-mask:
+				linear-gradient(#fff 0 0) content-box,
+				linear-gradient(#fff 0 0);
+			-webkit-mask-composite: xor;
+			mask-composite: exclude;
+			opacity: 1;
+			transition: transform 0.5s ease;
+			pointer-events: fill;
+		}
+
+		.iframe-wrapper:hover::before {
+			transform: scale(1.1);
+			pointer-events: none;
+		}
+
+		.iframe-wrapper iframe {
+			position: absolute;
+			top: 0;
+			left: 0;
+			width: 100%;
+			height: 100%;
+		}
+	</style>
+	<section class="hero is-light" style="background:white; width:100%">
+		<br>
+		<br>
+		<div class="container is-max-desktop" style="width:100%">
+			<div class="columns is-centered has-text-centered" style="width:100%">
+				<div class="iframe-wrapper column" style="width:100%">
+					<iframe style="width:100%" width="100%" src="https://www.youtube.com/embed/00MfkIggOx0"
+						title="YouTube video player" frameborder="0"
+						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+						allowfullscreen>
+					</iframe>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- End teaser video -->
+
 	</div>
 	<!--Header ends-->
 
@@ -753,28 +811,6 @@
 				</div>
 			</div>
 	</section>
-
-
-	<!-- Teaser video-->
-
-	<!--<div w3-include-html="carousel.html"></div>-->
-
-
-	<!-- Teaser video-->
-	<section class="section hero is-light">
-		<div class="container is-max-desktop">
-			<div class="columns is-centered has-text-centered">
-				<div class="column is-four-fifths">
-					<iframe width="800" height="563" src="https://www.youtube.com/embed/00MfkIggOx0"
-						title="YouTube video player" frameborder="0"
-						allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-						allowfullscreen>
-					</iframe>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- End teaser video -->
 
 	<nav class="navbar is-light">
 		<div class="container">
