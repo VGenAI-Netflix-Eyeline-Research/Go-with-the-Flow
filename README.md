@@ -4,7 +4,7 @@ For cut-and-drag motion control:
 
 Locally:
 - Clone this repo, cd into it
-- Run ```pip install -r requirements.txt``` (skip pytorch 
+- Run ```pip install -r requirements_local.txt```
 - Then run ```python gui.py```
 - Follow the instructions given to you on that GUI.
 - After completion, it will generate an MP4 file. Upload that file to a computer with decent GPU's.
