@@ -5,7 +5,7 @@ For cut-and-drag motion control:
 Locally:
 - Clone this repo, cd into it
 - Run ```pip install -r requirements_local.txt```
-- Then run ```python gui.py```
+- Then run ```python cut_and_drag_gui.py```
 - Follow the instructions given to you on that GUI.
 - After completion, it will generate an MP4 file. Upload that file to a computer with decent GPU's.
 
@@ -13,5 +13,5 @@ On the computer with a decent GPU (24GB or more VRAM):
 - Clone this repo, cd into it
 - Run ```pip install -r requirements.txt```
 - Warp the noise. Run ```PY make_warped_noise.py <PATH TO VIDEO OR URL> --ouptut_folder noise_warp_output_folder```
-- Then run ```ryan_infer.py noise_warp_output_folder --prompt "A duck splashing" --output_mp4_path 'output.mp4' --device 'cuda' --num_inference_steps 5```
+- Then run ```cut_and_drag_inference.py noise_warp_output_folder --prompt "A duck splashing" --output_mp4_path 'output.mp4' --device 'cuda' --num_inference_steps 5```
 - Replace folder names and hyperparameters as you see fit! The output will be ```output.mp4```
