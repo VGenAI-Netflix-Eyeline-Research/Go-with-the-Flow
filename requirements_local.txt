@@ -1,0 +1,9 @@
+rp
+easydict
+oldest-supported-numpy
+opencv-contrib-python
+imageio-ffmpeg
+fire
+moviepy
+icecream
+matplotlib
