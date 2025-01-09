@@ -1,17 +1,84 @@
-To run this code:
+# Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise
 
-For cut-and-drag motion control:
+<p align="center">
+  <img src="assets/Logo.png" alt="Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise" width="450">
+</p>
 
-Locally:
-- Clone this repo, cd into it
-- Run ```pip install -r requirements_local.txt```
-- Then run ```python cut_and_drag_gui.py```
-- Follow the instructions given to you on that GUI.
-- After completion, it will generate an MP4 file. Upload that file to a computer with decent GPU's.
+[**Project Page**](https://gowiththeflowpaper.github.io)
 
-On the computer with a decent GPU (24GB or more VRAM):
-- Clone this repo, cd into it
-- Run ```pip install -r requirements.txt```
-- Warp the noise. Run ```python make_warped_noise.py <PATH TO VIDEO OR URL> --ouptut_folder noise_warp_output_folder```
-- Then run ```python cut_and_drag_inference.py noise_warp_output_folder --prompt "A duck splashing" --output_mp4_path 'output.mp4' --device 'cuda' --num_inference_steps 5```
-- Replace folder names and hyperparameters as you see fit! The output will be ```output.mp4```
+---
+
+## Abstract
+
+Go-with-the-Flow is an easy and efficient way to control the motion patterns of video diffusion models. It lets a user decide how the camera and objects in a scene will move, and can even let you transfer motion patterns from one video to another.
+
+We simply fine-tune a base model — requiring no changes to the original pipeline or architecture, except: instead of using pure i.i.d. Gaussian noise, we use **warped noise** instead. Inference has exactly the same computational cost as running the base model.
+
+---
+
+## Quick Start
+
+### 1. Cut-and-Drag Motion Control
+
+**YouTube Tutorial**: [https://www.youtube.com/watch?v=lt16s6tFOnI](https://www.youtube.com/watch?v=lt16s6tFOnI)
+
+#### Local Setup
+
+1. Clone this repo, then `cd` into it.  
+2. Install local requirements:
+
+    pip install -r requirements_local.txt
+
+3. Run the GUI:
+
+    python cut_and_drag_gui.py
+
+4. Follow the instructions shown in the GUI.  
+
+After completion, an MP4 file will be generated. You’ll need to move this file to a computer with a decent GPU to continue.
+
+---
+
+### 2. Running on a GPU (24GB or more VRAM)
+
+1. Clone this repo on the machine with the GPU, then `cd` into it.  
+2. Install requirements:
+
+    pip install -r requirements.txt
+
+3. Warp the noise (replace `<PATH TO VIDEO OR URL>` accordingly):
+
+    PY make_warped_noise.py <PATH TO VIDEO OR URL> --ouptut_folder noise_warp_output_folder
+
+4. Run inference:
+
+    python cut_and_drag_inference.py noise_warp_output_folder \
+        --prompt "A duck splashing" \
+        --output_mp4_path "output.mp4" \
+        --device "cuda" \
+        --num_inference_steps 5
+
+Adjust folder paths, prompts, and other hyperparameters as needed. The output will be saved as `output.mp4`.
+
+---
+
+## Citation
+
+If you use this in your research, please consider citing:
+
+    @misc{gowiththeflow2023,
+      title={Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise},
+      author={...},
+      year={2023},
+      howpublished={\url{https://gowiththeflowpaper.github.io}},
+    }
+
+---
+
+## License
+
+This project is released under the [LICENSE](LICENSE) of your choice.
+
+---
+
+Thanks for checking out **Go-with-the-Flow**! For questions or feedback, feel free to open an issue or contact us directly.
