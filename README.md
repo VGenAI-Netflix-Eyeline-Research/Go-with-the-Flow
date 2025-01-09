@@ -87,10 +87,13 @@ If you use this in your research, please consider citing:
 
 ---
 
+<!-- 
+
 ## License
 
 This project is released under the [LICENSE](LICENSE) of your choice.
 
 ---
-
 Thanks for checking out **Go-with-the-Flow**! For questions or feedback, feel free to open an issue or contact us directly.
+-->
+
