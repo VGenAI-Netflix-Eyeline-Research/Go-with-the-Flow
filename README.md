@@ -27,11 +27,11 @@ For cut-and-drag motion control, there are two parts: an GUI to create a crude a
 Examples:
 
 <p align="center">
-  <img src="assets/cut_and_drag_example_1.gif" width="450">
-  <img src="assets/cut_and_drag_example_2.gif" width="450">
-  <img src="assets/cut_and_drag_example_3.gif" width="450">
-  <img src="assets/cut_and_drag_example_4.gif" width="450">
-  <img src="assets/cut_and_drag_example_5.gif" width="450">
+  <img src="assets/cut_and_drag_example_1.gif" width="80%">
+  <img src="assets/cut_and_drag_example_2.gif" width="80%">
+  <img src="assets/cut_and_drag_example_3.gif" width="80%">
+  <img src="assets/cut_and_drag_example_4.gif" width="80%">
+  <img src="assets/cut_and_drag_example_5.gif" width="80%">
 </p>
 
 ### 1. Animation Template GUI (Local)
