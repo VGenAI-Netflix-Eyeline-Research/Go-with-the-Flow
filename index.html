@@ -605,6 +605,18 @@
 				</div>
 
 				<div class="main-link-button glow-hover-element"
+				style="display: flex; align-items: center; justify-content: center; text-align: center;">
+			 <a href="more-results.html"
+				style="display: flex; align-items: center; text-decoration: none; color: inherit; margin: 0;">
+			   <span class="icon" style="margin-right: 10pt;font-size:20pt;">
+				 <i class="fas fa-video"></i>
+			   </span>
+			   <b style="color:white; font-size:16pt; margin: 0; display: flex; align-items: center; vertical-align: middle;">Gallery</b>
+			 </a>
+		   </div>
+		   
+
+				<div class="main-link-button glow-hover-element"
 					style="display: flex; align-items: center; justify-content: center; text-align: center;">
 					<!-- <a target="_blank" href="assets/diffusion_illusions.pdf" -->
 					<a target="_blank" href="assets/DiffusionIllusions_WithAppendix_2024.pdf"
@@ -673,19 +685,19 @@
 			}
 		</style>
 		<div class="author-list">
-			<a href="url"><div class="author">Ryan Burgert<sup>1,3</sup></div></a>
-			<a href="url"><div class="author">Yuancheng Xu<sup>1,4</sup></div></a>
-			<a href="url"><div class="author">Wenqi Xian<sup>1</sup></div></a>
-			<a href="url"><div class="author">Oliver Pilarski<sup>1</sup></div></a>
-			<a href="url"><div class="author">Pascal Clausen<sup>1</sup></div></a>
-			<a href="url"><div class="author">Mingming He<sup>1</sup></div></a>
-			<a href="url"><div class="author">Li Ma<sup>1</sup></div></a>
-			<a href="url"><div class="author">Yitong Deng<sup>2,5</sup></div></a>
-			<a href="url"><div class="author">Lingxiao Li<sup>2</sup></div></a>
-			<a href="url"><div class="author">Mohsen Mousavi<sup>1</sup></div></a>
-			<a href="url"><div class="author">Michael Ryoo<sup>3</sup></div></a>
-			<a href="url"><div class="author">Paul Debevec<sup>1</sup></div></a>
-			<a href="url"><div class="author">Ning Yu<sup>1<span style="font-size: 12px;">†</span></sup></div></a>
+			<a href="https://ryanndagreat.github.io"><div class="author">Ryan Burgert<sup>1,3</sup></div></a>
+			<a href="https://yuancheng-xu.github.io"><div class="author">Yuancheng Xu<sup>1,4</sup></div></a>
+			<a href="https://www.cs.cornell.edu/~wenqixian/"><div class="author">Wenqi Xian<sup>1</sup></div></a>
+			<a href="https://www.linkedin.com/in/oliverpilarski/"><div class="author">Oliver Pilarski<sup>1</sup></div></a>
+			<a href="https://www.linkedin.com/in/pascal-clausen-a179566a/?originalSubdomain=ch"><div class="author">Pascal Clausen<sup>1</sup></div></a>
+			<a href="https://mingminghe.com/"><div class="author">Mingming He<sup>1</sup></div></a>
+			<a href="https://limacv.github.io/homepage/"><div class="author">Li Ma<sup>1</sup></div></a>
+			<a href="https://yitongdeng.github.io"><div class="author">Yitong Deng<sup>2,5</sup></div></a>
+			<a href="https://scholar.google.com/citations?user=rxQDLWcAAAAJ&hl=en"><div class="author">Lingxiao Li<sup>2</sup></div></a>
+			<a href="www.linkedin.com/in/mohsen-mousavi-0516a03"><div class="author">Mohsen Mousavi<sup>1</sup></div></a>
+			<a href="http://michaelryoo.com"><div class="author">Michael Ryoo<sup>3</sup></div></a>
+			<a href="https://www.pauldebevec.com"><div class="author">Paul Debevec<sup>1</sup></div></a>
+			<a href="https://ningyu1991.github.io"><div class="author">Ning Yu<sup>1<span style="font-size: 12px;">†</span></sup></div></a>
 
 			<br>
 
@@ -807,20 +819,32 @@
 						<!-- <p>Our code and models have been open sourced!</p> -->
 					</div>
 				</div>
+				<div class="columns is-centered">
+				<img src="https://github.com/GoWithTheFlowPaper/gowiththeflowpaper.github.io/blob/main/assets/cut_and_drag_example_5.gif?raw=true" width="50%">
+				</div>
 			</div>
 	</section>
 	<h2 class="is-centered has-text-centered">Table Of Contents</h2>
+
+	<div class=" is-centered">
+		<div class="column has-text-centered">
+				There are many applications for Go-with-the-flow, for both image-to-video (I2V) and text-to-video (T2V). Check them out with the below links!
+			<!-- <p>Our code and models have been open sourced!</p> -->
+		</div>
+	</div>
+
 	<div class="columns is-centered has-text-centered">
 		<nav class="navbar is-centered has-text-centered">
 			<div class="container is-centered has-text-centered">
 				<div class="menu-grid">
-					<a class="menu-item" href="#object-motion-transfer"><span>Cut-and-drag Animation</span></a>
+					<a class="menu-item" href="#object-motion-transfer"><span>Cut-and-drag (I2V)</span></a>
 					<a class="menu-item" href="#flow-visualization"><span>Warped Noise Visualization</span></a>
 					<a class="menu-item" href="#degradation-levels"><span>Degradation Levels</span></a>
-					<a class="menu-item" href="#first-frame-edits"><span>First Frame Edits</span></a>
+					<a class="menu-item" href="#first-frame-edits"><span>First Frame Edits (I2V)</span></a>
 					<!-- <a class="menu-item" href="#more-motion-control"><span>More Object Motion Control</span></a> -->
-					<a class="menu-item" href="#camera-motion-control"><span>Camera Motion Control</span></a>
-					<a class="menu-item" href="#depth-camera-control"><span>Depth-Based Camera Motion</span></a>
+					<a class="menu-item" href="#camera-motion-control"><span>Turntable Animations (T2V)</span></a>
+					<a class="menu-item" href="#davis"><span>DAVIS Motion Transfer (T2V)</span></a>
+					<a class="menu-item" href="#novel-camera-control"><span>Depth Warping (I2V)</span></a>
 					<style>
 						/* Your existing nav styles here */
 
@@ -876,7 +900,6 @@
 							});
 						});
 					</script>
-					<a class="menu-item" href="#novel-camera-control"><span>More Camera Motion</span></a>
 				</div>
 			</div>
 		</nav>
@@ -949,12 +972,16 @@
 		<div class="container is-max-desktop">
 			<div class="columns is-centered has-text-centered">
 				<div class="column is-four-fifths">
-					<h2 class="title is-3">Object Motion Transfer</h2>
+					<h2 class="title is-3">Cut-and-drag Animation (I2V)</h2>
 					<div class="content has-text-justified">
 						<p>
-							The user provides a crude segmentation of the object as a motion signal and uses the initial
+							Go-with-the-flow allows for several types of motion control, including cut-and-drag animations, shown below.
+							Here, the user provides a crude segmentation of the object as a motion signal and uses the initial
 							frame as a control. The goal is to generate a coherent video that aligns with the motion
 							indicated by the user’s drag.
+
+							<!-- Go-with-the-flow allows for several types of motion control, including cut-and-drag - where a crude, unrealistic cutout animation is turned into a realistic video. -->
+							<!-- The goal is to mimic the motion of the cutout given a starting image,  -->
 						</p>
 					</div>
 				</div>
@@ -1156,8 +1183,9 @@
 					<div class="content has-text-justified">
 						<p>
 							A visualization comparing the original video, the optical flow, and the warped noise
-							generated by various methods. Our warped noise aligns most consistently with the optical
-							flow.
+							generated by various methods. 
+<br>
+							You see rick dancing? Try pausing the video at any frame - he will dissapear!
 						</p>
 					</div>
 				</div>
@@ -1182,7 +1210,7 @@
 						  </tr>
 					</table> -->
 					</div>
-					<video class="img-fluid" autoplay loop muted playsinline>
+					<video class="img-fluid" autoplay loop muted playsinline controls>
 						<source
 							src="https://go-with-the-flow-cvpr25.s3.us-east-1.amazonaws.com/Flow/ryan_noises_copy_25_fps_with_audio.mp4"
 							type="video/mp4">
@@ -1208,6 +1236,11 @@
 							src="https://go-with-the-flow-cvpr25.s3.us-east-1.amazonaws.com/Flow/X20_TRIPLE_ryan_noises_2hq.mp4"
 							type="video/mp4">
 					</video> -->
+					<video class="img-fluid" autoplay loop muted playsinline controls>
+						<source
+							src="assets/X20_TRIPLE_ryan_noises_2hq.mp4"
+							type="video/mp4">
+					</video>
 				</div>
 			</div>
 
@@ -1258,12 +1291,12 @@
 		<div class="container is-max-desktop">
 			<div class="columns is-centered has-text-centered">
 				<div class="column is-four-fifths">
-					<h2 class="title is-3">First Frame Editing</h2>
+					<h2 class="title is-3">First Frame Editing (I2V)</h2>
 					<div class="content has-text-justified">
 						<p>
 							A video-editing task where the user starts with an original video and an edited version of
 							its initial frame. The goal is to propagate the edits made to the first frame seamlessly
-							throughout the entire video. For instance, a user might add an object to the initial frame
+							throughout the entire video by copying the original video's motion. For instance, a user might add an object to the initial frame
 							of the original video and expect the model to generate a coherent video that consistently
 							incorporates the added object.
 						</p>
@@ -1292,6 +1325,7 @@
 						<source src="https://go-with-the-flow-cvpr25.s3.us-east-1.amazonaws.com/FrameEdits/seashore.mp4"
 							type="video/mp4">
 					</video>
+					The below videos are also first-frame edits, where the original video is on the far left and the edited videos are to the right.
 					<video class="img-fluid" autoplay loop muted playsinline>
 						<source
 							src="https://go-with-the-flow-cvpr25.s3.us-east-1.amazonaws.com/FrameEdits/video_copy107.mp4"
@@ -1308,9 +1342,9 @@
 							type="video/mp4">
 					</video>
 
-
 					<div class="card-body">
 					</div>
+					In the below video, the input video is in the middle, and the output video is on the far left.
 					<video class="img-fluid" autoplay loop muted playsinline>
 						<source src="https://go-with-the-flow-cvpr25.s3.us-east-1.amazonaws.com/FrameEdits/bed.mp4"
 							type="video/mp4">
@@ -1463,14 +1497,46 @@
 		</div>
 	</section>
 
+	<!-- <section id="motion-transfer" class="section hero is-light">
+		<div class="container is-max-desktop">
+			<div class="columns is-centered has-text-centered">
+				<div class="column is-four-fifths">
+					<h2 class="title is-3">Motion Transfer (T2V and I2V)</h2>
+					<div class="content has-text-justified">
+						<p>
+							Text-to-video motion transfer is a task where we generate a video from text, while copying motion patterns from an input "driving" video.
+							
+						</p>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<div class="container" id="carousel">
+		<div id="slick">
+			<div class="slide">
+				<div class="card">
+					<div class="card-body">
+					</div>
+					<video class="img-fluid" autoplay loop muted playsinline>
+						<source src="https://go-with-the-flow-cvpr25.s3.us-east-1.amazonaws.com/FrameEdits/bed.mp4"
+							type="video/mp4">
+					</video>
+				</div>
+			</div>
+		</div>
+	</div> -->
+	
 	<section id="davis" class="section hero is-light">
 		<div class="container is-max-desktop">
 			<div class="columns is-centered has-text-centered">
 				<div class="column is-four-fifths">
-					<h2 class="title is-3">DAVIS Text-to-Video Generation</h2>
+					<h2 class="title is-3">Davis Motion Transfer (T2V)</h2>
 					<div class="content has-text-justified">
 						<p>
-							Results on DAVIS for T2V models, where the original video is used as the motion signal, and
+							<!-- Text-to-video motion transfer is a task where we generate a video from text, while copying motion patterns from an input "driving" video. -->
+
+							Below we show results on DAVIS for T2V models, where the original video is used as the motion signal, and
 							a different target prompt is provided. The task requires the video model to generate a video
 							that aligns with the target prompt while preserving the motion from the original video.
 						</p>
@@ -1585,7 +1651,6 @@
 				</div>
 			</div>
 
-
 		</div>
 	</div>
 
@@ -1599,11 +1664,12 @@
 		<div class="container is-max-desktop">
 			<div class="columns is-centered has-text-centered">
 				<div class="column is-four-fifths">
-					<h2 class="title is-3">Depth Based Camera Motion Control</h2>
+					<h2 class="title is-3">Motion Control: WonderJourney (I2V)</h2>
 					<div class="content has-text-justified">
 						<p>
 							We apply our Image-to-Video model to a sequence of frames warped using monocular depth
 							estimation, enabling consistent 3D scene generation from a single image.
+							Using input videos from WonderJourney's website, we remake them with Go-with-the-Flow into more coherent, smooth videos.
 						</p>
 					</div>
 				</div>
@@ -1732,13 +1798,13 @@
 		<div class="container is-max-desktop">
 			<div class="columns is-centered has-text-centered">
 				<div class="column is-four-fifths">
-					<h2 class="title is-3">More Novel Camera Motion Control</h2>
+					<h2 class="title is-3">Camera Control: Depth Warping (I2V)</h2>
 					<div class="content has-text-justified">
 						<p>
 							Results on novel camera motion control, featuring synthetic camera movements specified by
-							the user. We estimate depth map from single image input, and our method effectively
+							the user. We estimate depth map from single image input using a monocular depth estimator, and use that depth map to warp the input image along a camera path. Our method effectively
 							transforms the depth warped input animation into a 3D consistent video with plausible
-							illuminations and view-dependent effects.
+							illuminations and view-dependent effects. 
 						</p>
 					</div>
 				</div>
