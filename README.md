@@ -1,4 +1,4 @@
-# Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise
+<!-- # Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise -->
 
 <p align="center">
   <img src="assets/Logo.png" alt="Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise" width="450">
@@ -17,6 +17,21 @@ We simply fine-tune a base model — requiring no changes to the original pipeli
 ---
 
 ## Quick Start
+
+Cut-and-drag motion control lets you take an image, and create a video by cutting out different parts of that image and dragging them around.
+
+For cut-and-drag motion control, there are two parts: an GUI to create a crude animation (no GPU needed), then a diffusion script to turn that crude animation into a pretty one (requires GPU).
+
+Examples:
+
+<p align="center">
+  <img src="assets/cut_and_drag_example_1.gif" width="450">
+  <img src="assets/cut_and_drag_example_2.gif" width="450">
+  <img src="assets/cut_and_drag_example_3.gif" width="450">
+  <img src="assets/cut_and_drag_example_4.gif" width="450">
+  <img src="assets/cut_and_drag_example_5.gif" width="450">
+</p>
+
 
 ### 1. Cut-and-Drag Motion Control
 
