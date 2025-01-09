@@ -1,7 +1,7 @@
 <!-- # Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise -->
 
 <p align="center">
-  <img src="assets/Logo.png" alt="Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise" width="450">
+  <img src="assets/Logo.png" alt="Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise" width="100%">
 </p>
 
 [**Project Page**](https://gowiththeflowpaper.github.io)
@@ -16,11 +16,13 @@ We simply fine-tune a base model — requiring no changes to the original pipeli
 
 ---
 
-## Quick Start
+## Quick Start: Cut-and-drag Motion Control
 
 Cut-and-drag motion control lets you take an image, and create a video by cutting out different parts of that image and dragging them around.
 
 For cut-and-drag motion control, there are two parts: an GUI to create a crude animation (no GPU needed), then a diffusion script to turn that crude animation into a pretty one (requires GPU).
+
+**YouTube Tutorial**: [https://www.youtube.com/watch?v=lt16s6tFOnI](https://www.youtube.com/watch?v=lt16s6tFOnI)
 
 Examples:
 
@@ -32,46 +34,41 @@ Examples:
   <img src="assets/cut_and_drag_example_5.gif" width="450">
 </p>
 
-
-### 1. Cut-and-Drag Motion Control
-
-**YouTube Tutorial**: [https://www.youtube.com/watch?v=lt16s6tFOnI](https://www.youtube.com/watch?v=lt16s6tFOnI)
-
-#### Local Setup
+### 1. Animation Template GUI (Local)
 
 1. Clone this repo, then `cd` into it.  
 2. Install local requirements:
 
-    pip install -r requirements_local.txt
+    `pip install -r requirements_local.txt`
 
 3. Run the GUI:
 
-    python cut_and_drag_gui.py
+    `python cut_and_drag_gui.py`
 
 4. Follow the instructions shown in the GUI.  
 
 After completion, an MP4 file will be generated. You’ll need to move this file to a computer with a decent GPU to continue.
 
----
-
-### 2. Running on a GPU (24GB or more VRAM)
+### 2. Running Video Diffusion (GPU)
 
 1. Clone this repo on the machine with the GPU, then `cd` into it.  
 2. Install requirements:
 
-    pip install -r requirements.txt
+    `pip install -r requirements.txt`
 
 3. Warp the noise (replace `<PATH TO VIDEO OR URL>` accordingly):
 
-    PY make_warped_noise.py <PATH TO VIDEO OR URL> --ouptut_folder noise_warp_output_folder
+    `PY make_warped_noise.py <PATH TO VIDEO OR URL> --ouptut_folder noise_warp_output_folder`
 
 4. Run inference:
 
+    ```
     python cut_and_drag_inference.py noise_warp_output_folder \
         --prompt "A duck splashing" \
         --output_mp4_path "output.mp4" \
         --device "cuda" \
         --num_inference_steps 5
+    ```
 
 Adjust folder paths, prompts, and other hyperparameters as needed. The output will be saved as `output.mp4`.
 
