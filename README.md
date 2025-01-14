@@ -8,11 +8,16 @@
 [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=red)](https://arxiv.org/abs/TODO)
 [![YouTube Tutorial](https://img.shields.io/badge/YouTube-Tutorial-red?logo=youtube&logoColor=red)](https://www.youtube.com/watch?v=lt16s6tFOnI)
 
+Ryan Burgert<sup>1,3</sup>, Yuancheng Xu<sup>1,4</sup>, Wenqi Xian<sup>1</sup>, Oliver Pilarski<sup>1</sup>, Pascal Clausen<sup>1</sup>, Mingming He<sup>1</sup>, Li Ma<sup>1</sup>, Yitong Deng<sup>2,5</sup>, Lingxiao Li<sup>2</sup>, Mohsen Mousavi<sup>1</sup>, Michael Ryoo<sup>3</sup>, Paul Debevec<sup>1</sup>, Ning Yu<sup>1†</sup>
+
+<sup>1</sup>Netflix Eyeline Studios, <sup>2</sup>Netflix, <sup>3</sup>Stony Brook University, <sup>4</sup>University of Maryland, <sup>5</sup>Stanford University
+
 ### Table of Contents
 - [Abstract](#abstract) 
 - [Quick Start: Cut-and-drag Motion Control](#quick-start-cut-and-drag-motion-control)
   - [Animation Template GUI (Local)](#1-animation-template-gui-local) 
   - [Running Video Diffusion (GPU)](#2-running-video-diffusion-gpu)
+- [TODO](#todo)  
 - [Citation](#citation)
 
 <a name="abstract"></a>
@@ -81,6 +86,18 @@ After completion, an MP4 file will be generated. You'll need to move this file t
 
 Adjust folder paths, prompts, and other hyperparameters as needed. The output will be saved as `output.mp4`.
 
+<a name="todo"></a>
+## :clipboard: TODO
+
+- [x] Upload All Models
+- [x] Upload Cut-And-Drag Inference Code  
+- [x] Release to Arxiv
+- [ ] Depth-Warping Inference Code
+- [ ] Fine-Tuning Code
+- [ ] T2V Motion Transfer Code
+- [ ] ComfyUI Node
+- [ ] Replicate Instance
+
 <a name="citation"></a>
 ## :black_nib: Citation
 
@@ -88,19 +105,7 @@ If you use this in your research, please consider citing:
 
     @misc{gowiththeflow2023,
       title={Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise},
-      author={...},
+      author={Ryan Burgert and Yuancheng Xu and Wenqi Xian and Oliver Pilarski and Pascal Clausen and Mingming He and Li Ma and Yitong Deng and Lingxiao Li and Mohsen Mousavi and Michael Ryoo and Paul Debevec and Ning Yu},
       year={2023},
       howpublished={\url{https://gowiththeflowpaper.github.io}},
     }
-
-
-<!-- 
-
-## License
-
-This project is released under the [LICENSE](LICENSE) of your choice.
-
----
-Thanks for checking out **Go-with-the-Flow**! For questions or feedback, feel free to open an issue or contact us directly.
--->
-
