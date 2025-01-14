@@ -8,9 +8,10 @@
 [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=red)](https://arxiv.org/abs/TODO)
 [![YouTube Tutorial](https://img.shields.io/badge/YouTube-Tutorial-red?logo=youtube&logoColor=red)](https://www.youtube.com/watch?v=lt16s6tFOnI)
 
-Ryan Burgert<sup>1,3</sup>, Yuancheng Xu<sup>1,4</sup>, Wenqi Xian<sup>1</sup>, Oliver Pilarski<sup>1</sup>, Pascal Clausen<sup>1</sup>, Mingming He<sup>1</sup>, Li Ma<sup>1</sup>, Yitong Deng<sup>2,5</sup>, Lingxiao Li<sup>2</sup>, Mohsen Mousavi<sup>1</sup>, Michael Ryoo<sup>3</sup>, Paul Debevec<sup>1</sup>, Ning Yu<sup>1†</sup>
+[Ryan Burgert](https://ryanndagreat.github.io)<sup>1,3</sup>, [Yuancheng Xu](https://yuancheng-xu.github.io)<sup>1,4</sup>, [Wenqi Xian](https://www.cs.cornell.edu/~wenqixian/)<sup>1</sup>, [Oliver Pilarski](https://www.linkedin.com/in/oliverpilarski/)<sup>1</sup>, [Pascal Clausen](https://www.linkedin.com/in/pascal-clausen-a179566a/?originalSubdomain=ch)<sup>1</sup>, [Mingming He](https://mingminghe.com/)<sup>1</sup>, [Li Ma](https://limacv.github.io/homepage/)<sup>1</sup>, [Yitong Deng](https://yitongdeng.github.io)<sup>2,5</sup>, [Lingxiao Li](https://scholar.google.com/citations?user=rxQDLWcAAAAJ&hl=en)<sup>2</sup>, [Mohsen Mousavi](www.linkedin.com/in/mohsen-mousavi-0516a03)<sup>1</sup>, [Michael Ryoo](http://michaelryoo.com)<sup>3</sup>, [Paul Debevec](https://www.pauldebevec.com)<sup>1</sup>, [Ning Yu](https://ningyu1991.github.io)<sup>1†</sup>
 
-<sup>1</sup>Netflix Eyeline Studios, <sup>2</sup>Netflix, <sup>3</sup>Stony Brook University, <sup>4</sup>University of Maryland, <sup>5</sup>Stanford University
+<sup>1</sup>Netflix Eyeline Studios, <sup>2</sup>Netflix, <sup>3</sup>Stony Brook University, <sup>4</sup>University of Maryland, <sup>5</sup>Stanford University<br>
+<sup>†</sup>Project Lead
 
 ### Table of Contents
 - [Abstract](#abstract) 
