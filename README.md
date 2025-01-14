@@ -94,10 +94,10 @@ Adjust folder paths, prompts, and other hyperparameters as needed. The output wi
 - [x] Upload Cut-And-Drag Inference Code  
 - [x] Release to Arxiv
 - [ ] Depth-Warping Inference Code
-- [ ] Fine-Tuning Code
 - [ ] T2V Motion Transfer Code
 - [ ] ComfyUI Node
 - [ ] Replicate Instance
+- [ ] Fine-Tuning Code
 
 <a name="citation"></a>
 ## :black_nib: Citation
