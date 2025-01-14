@@ -7,6 +7,7 @@
 [![Project Page](https://img.shields.io/badge/Project-Page-green?logo=googlechrome&logoColor=green)](https://gowiththeflowpaper.github.io)
 [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=red)](https://arxiv.org/abs/TODO)
 [![YouTube Tutorial](https://img.shields.io/badge/YouTube-Tutorial-red?logo=youtube&logoColor=red)](https://www.youtube.com/watch?v=lt16s6tFOnI)
+[![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Go--with--the--Flow-blue)](https://huggingface.co/VGenAI-Netflix-Eyeline-Research/Go-with-the-Flow)
 
 [Ryan Burgert](https://ryanndagreat.github.io)<sup>1,3</sup>, [Yuancheng Xu](https://yuancheng-xu.github.io)<sup>1,4</sup>, [Wenqi Xian](https://www.cs.cornell.edu/~wenqixian/)<sup>1</sup>, [Oliver Pilarski](https://www.linkedin.com/in/oliverpilarski/)<sup>1</sup>, [Pascal Clausen](https://www.linkedin.com/in/pascal-clausen-a179566a/?originalSubdomain=ch)<sup>1</sup>, [Mingming He](https://mingminghe.com/)<sup>1</sup>, [Li Ma](https://limacv.github.io/homepage/)<sup>1</sup>, [Yitong Deng](https://yitongdeng.github.io)<sup>2,5</sup>, [Lingxiao Li](https://scholar.google.com/citations?user=rxQDLWcAAAAJ&hl=en)<sup>2</sup>, [Mohsen Mousavi](www.linkedin.com/in/mohsen-mousavi-0516a03)<sup>1</sup>, [Michael Ryoo](http://michaelryoo.com)<sup>3</sup>, [Paul Debevec](https://www.pauldebevec.com)<sup>1</sup>, [Ning Yu](https://ningyu1991.github.io)<sup>1†</sup>
 
@@ -104,9 +105,9 @@ Adjust folder paths, prompts, and other hyperparameters as needed. The output wi
 
 If you use this in your research, please consider citing:
 
-    @misc{gowiththeflow2023,
+    @misc{gowiththeflow2025,
       title={Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise},
       author={Ryan Burgert and Yuancheng Xu and Wenqi Xian and Oliver Pilarski and Pascal Clausen and Mingming He and Li Ma and Yitong Deng and Lingxiao Li and Mohsen Mousavi and Michael Ryoo and Paul Debevec and Ning Yu},
-      year={2023},
-      howpublished={\url{https://gowiththeflowpaper.github.io}},
+      year={2025},
+      howpublished={\url{https://vgenai-netflix-eyeline-research.github.io/Go-with-the-Flow/}},
     }
