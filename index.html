@@ -878,6 +878,7 @@
 					<a class="menu-item" href="#camera-motion-control"><span>Turntable Animations (T2V)</span></a>
 					<a class="menu-item" href="#davis"><span>DAVIS Motion Transfer (T2V)</span></a>
 					<a class="menu-item" href="#novel-camera-control"><span>Depth Warping (I2V)</span></a>
+					<a class="menu-item" href="#image-warping"><span>Image-to-Image (I2I)</span></a>
 					<style>
 						/* Your existing nav styles here */
 
@@ -1971,70 +1972,74 @@
 
 				</div>
 			</div>
+		</div>
+	</div>
 
 
 
-
-
-			<!-- Paper abstract -->
-			<section id="image-warping" class="section hero is-light">
-				<div class="container is-max-desktop">
-					<div class="columns is-centered has-text-centered">
-						<div class="column is-four-fifths">
-							<h2 class="title is-3">Image Based Warping Application</h2>
-							<div class="content has-text-justified">
-								<p>
-									The original How-I-Warped-Your-Noise paper showed that warped noise could be used to get temporally consistent results from image diffusion models. Here, we show various noise warping and interpolation techniques side-by-side, for both relighting using DiffRelight and super-resolution using DeepFloyd Stage II. 
-								</p>
-							</div>
-						</div>
+	<!-- Paper abstract -->
+	<section id="image-warping" class="section hero is-light">
+		<div class="container is-max-desktop">
+			<div class="columns is-centered has-text-centered">
+				<div class="column is-four-fifths">
+					<h2 class="title is-3">Temporally Consistent Image-to-Image via Noise Warping</h2>
+					<div class="content has-text-justified">
+						<p>
+							The original How-I-Warped-Your-Noise paper showed that image diffusion models can
+							yield temporally consistent results when using warped noise when that noise follows
+							the optical flow of the input video.
+							<br>Here, we show various noise warping and interpolation techniques side-by-side,
+							for both relighting using DiffRelight and super-resolution using DeepFloyd Stage II.
+						</p>
 					</div>
 				</div>
-			</section>
-			<!-- End paper abstract -->
+			</div>
+		</div>
+	</section>
+	<!-- End paper abstract -->
 
-			<div class="container" id="carousel">
-				<div id="slick">
+	<div class="container" id="carousel">
+		<div id="slick">
 
-					<div class="slide">
-						<div class="card">
-							<video class="img-fluid" autoplay loop muted playsinline>
-								<source
-									src="https://go-with-the-flow-cvpr25.s3.us-east-1.amazonaws.com/DiffRelight/gt_animation___nl_grid11__24fps.mp4"
-									type="video/mp4">
-							</video>
-						</div>
-					</div>
+			<div class="slide">
+				<div class="card">
+					<video class="img-fluid" autoplay loop muted playsinline>
+						<source
+							src="https://go-with-the-flow-cvpr25.s3.us-east-1.amazonaws.com/DiffRelight/gt_animation___nl_grid11__24fps.mp4"
+							type="video/mp4">
+					</video>
+				</div>
+			</div>
 
-					<div class="slide">
-						<div class="card">
-							<video class="img-fluid" autoplay loop muted playsinline>
-								<source
-									src="https://go-with-the-flow-cvpr25.s3.us-east-1.amazonaws.com/DiffRelight/bear_grid.mp4"
-									type="video/mp4">
-							</video>
-						</div>
-					</div>
-
-
+			<div class="slide">
+				<div class="card">
+					<video class="img-fluid" autoplay loop muted playsinline>
+						<source
+							src="https://go-with-the-flow-cvpr25.s3.us-east-1.amazonaws.com/DiffRelight/bear_grid.mp4"
+							type="video/mp4">
+					</video>
 				</div>
 			</div>
 
 
-			<section class="section hero is-light">
-				<div class="container has-text-centered" style="margin-bottom: 20px;">
-					<a href="more-results.html#image-warping" class="button is-primary is-large">
-						<span class="icon">
-							<i class="fas fa-video"></i>
-						</span>
-						<span>View More Video Results</span>
-					</a>
-				</div>
-			</section>
+		</div>
+	</div>
 
 
-			<!--BibTex citation -->
-			<!--End BibTex citation -->
+	<section class="section hero is-light">
+		<div class="container has-text-centered" style="margin-bottom: 20px;">
+			<a href="more-results.html#image-warping" class="button is-primary is-large">
+				<span class="icon">
+					<i class="fas fa-video"></i>
+				</span>
+				<span>View More Video Results</span>
+			</a>
+		</div>
+	</section>
+
+
+	<!--BibTex citation -->
+	<!--End BibTex citation -->
 </body>
 
 </html>
