@@ -6,7 +6,7 @@
 
 [![Project Page](https://img.shields.io/badge/Project-Page-green?logo=googlechrome&logoColor=green)](https://gowiththeflowpaper.github.io)
 [![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=red)](https://arxiv.org/abs/TODO)
-[![YouTube Tutorial](https://img.shields.io/badge/YouTube-Tutorial-red?logo=youtube&logoColor=red)](https://www.youtube.com/watch?v=lt16s6tFOnI)
+[![YouTube Tutorial](https://img.shields.io/badge/YouTube-Tutorial-red?logo=youtube&logoColor=red)](https://www.youtube.com/watch?v=IO3pbQpT5F8)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Go--with--the--Flow-blue)](https://huggingface.co/VGenAI-Netflix-Eyeline-Research/Go-with-the-Flow)
 
 [Ryan Burgert](https://vgenai-netflix-eyeline-research.github.io/Go-with-the-Flow/)<sup>1,3</sup>, [Yuancheng Xu](https://yuancheng-xu.github.io)<sup>1,4</sup>, [Wenqi Xian](https://www.cs.cornell.edu/~wenqixian/)<sup>1</sup>, [Oliver Pilarski](https://www.linkedin.com/in/oliverpilarski/)<sup>1</sup>, [Pascal Clausen](https://www.linkedin.com/in/pascal-clausen-a179566a/?originalSubdomain=ch)<sup>1</sup>, [Mingming He](https://mingminghe.com/)<sup>1</sup>, [Li Ma](https://limacv.github.io/homepage/)<sup>1</sup>, 
@@ -38,7 +38,7 @@ Cut-and-drag motion control lets you take an image, and create a video by cuttin
 
 For cut-and-drag motion control, there are two parts: an GUI to create a crude animation (no GPU needed), then a diffusion script to turn that crude animation into a pretty one (requires GPU).
 
-**YouTube Tutorial**: [![YouTube Tutorial](https://img.shields.io/badge/YouTube-Tutorial-red?logo=youtube&logoColor=red)](https://www.youtube.com/watch?v=lt16s6tFOnI)
+**YouTube Tutorial**: [![YouTube Tutorial](https://img.shields.io/badge/YouTube-Tutorial-red?logo=youtube&logoColor=red)](https://www.youtube.com/watch?v=IO3pbQpT5F8)
 
 Examples:
 
