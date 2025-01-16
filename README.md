@@ -109,6 +109,7 @@ Adjust folder paths, prompts, and other hyperparameters as needed. The output wi
 
 If you use this in your research, please consider citing:
 
+```
 @misc{burgert2025gowiththeflowmotioncontrollablevideodiffusion,
       title={Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise}, 
       author={Ryan Burgert and Yuancheng Xu and Wenqi Xian and Oliver Pilarski and Pascal Clausen and Mingming He and Li Ma and Yitong Deng and Lingxiao Li and Mohsen Mousavi and Michael Ryoo and Paul Debevec and Ning Yu},
@@ -118,3 +119,4 @@ If you use this in your research, please consider citing:
       primaryClass={cs.CV},
       url={https://arxiv.org/abs/2501.08331}, 
 }
+```
