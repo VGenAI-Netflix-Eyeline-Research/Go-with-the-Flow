@@ -31,7 +31,7 @@
 				window.location.href = 'https://vgenai-netflix-eyeline-research.github.io/Go-with-the-Flow/';
 			}
 		</script>
-		
+
 		<title>Go with the Flow</title>
 		<link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
 		
@@ -2109,6 +2109,7 @@
 							the optical flow of the input video.
 							<br>Here, we show various noise warping and interpolation techniques side-by-side,
 							for both relighting using DiffRelight and super-resolution using DeepFloyd Stage II.
+							<br>What's cool about using noise warping on image-to-image translation: it's a training-free way to get better temporal consistency from image diffusion models that were never trained on videos!
 						</p>
 					</div>
 				</div>
@@ -2120,6 +2121,18 @@
 	<div class="container" id="carousel">
 		<div id="slick">
 
+			Here's a comparison of DiffRelight, an image-to-image relighting algorithm that works in Stable Diffusion's latent space, where we compare using the same initial noise on every frame (fixed noise) versus our more temporally consistent warped noise. Note how there are less "sticking artifacts"!
+			<div class="slide">
+				<div class="card">
+					<video class="img-fluid" autoplay loop muted playsinline>
+						<source
+							src="assets/kevin_fixed_vs_warped.mp4"
+							type="video/mp4">
+					</video>
+				</div>
+			</div>
+
+			Here's another DiffRelight comparison, where we compare many noise strategies.
 			<div class="slide">
 				<div class="card">
 					<video class="img-fluid" autoplay loop muted playsinline>
@@ -2130,6 +2143,7 @@
 				</div>
 			</div>
 
+			And here's an example of us warping noise with many strategies using DeepFloyd's Stage II superresolution model, which runs in RGB pixel-space as opposed to latent space!
 			<div class="slide">
 				<div class="card">
 					<video class="img-fluid" autoplay loop muted playsinline>
