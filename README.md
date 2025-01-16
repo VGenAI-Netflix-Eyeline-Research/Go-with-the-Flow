@@ -4,8 +4,8 @@
   <img src="assets/Logo.png" alt="Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise" width="100%">
 </p>
 
-[![Project Page](https://img.shields.io/badge/Project-Page-green?logo=googlechrome&logoColor=green)](https://gowiththeflowpaper.github.io)
-[![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=red)](https://arxiv.org/abs/TODO)
+[![Project Page](https://img.shields.io/badge/Project-Page-green?logo=googlechrome&logoColor=green)](https://github.com/VGenAI-Netflix-Eyeline-Research/Go-with-the-Flow)
+[![Paper](https://img.shields.io/badge/Paper-arXiv-b31b1b?logo=arxiv&logoColor=red)](https://arxiv.org/abs/2501.08331)
 [![YouTube Tutorial](https://img.shields.io/badge/YouTube-Tutorial-red?logo=youtube&logoColor=red)](https://www.youtube.com/watch?v=IO3pbQpT5F8)
 [![Hugging Face](https://img.shields.io/badge/%F0%9F%A4%97%20Hugging%20Face-Go--with--the--Flow-blue)](https://huggingface.co/VGenAI-Netflix-Eyeline-Research/Go-with-the-Flow)
 
@@ -107,9 +107,12 @@ Adjust folder paths, prompts, and other hyperparameters as needed. The output wi
 
 If you use this in your research, please consider citing:
 
-    @misc{gowiththeflow2025,
-      title={Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise},
+@misc{burgert2025gowiththeflowmotioncontrollablevideodiffusion,
+      title={Go-with-the-Flow: Motion-Controllable Video Diffusion Models Using Real-Time Warped Noise}, 
       author={Ryan Burgert and Yuancheng Xu and Wenqi Xian and Oliver Pilarski and Pascal Clausen and Mingming He and Li Ma and Yitong Deng and Lingxiao Li and Mohsen Mousavi and Michael Ryoo and Paul Debevec and Ning Yu},
       year={2025},
-      howpublished={\url{https://vgenai-netflix-eyeline-research.github.io/Go-with-the-Flow/}},
-    }
+      eprint={2501.08331},
+      archivePrefix={arXiv},
+      primaryClass={cs.CV},
+      url={https://arxiv.org/abs/2501.08331}, 
+}
